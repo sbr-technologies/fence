@@ -1,0 +1,87 @@
+body {
+	font-family: sans-serif;
+	font-size: 16px;
+	color: #333;
+	padding: 0;
+	margin:0;
+}
+.main_title{
+	font-size:24px;
+	color:#0000ff;
+	margin: 0 0 10px;
+	padding-bottom: 10px;
+}
+.page_title {
+	margin:10px 0;
+	bottom: 10px 0;
+	border-bottom: 2px solid #333;
+    border-top: 2px solid #333;
+	font-size:18px;
+}
+    
+table.table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.table thead tr {
+	border-top: 2px solid #333;
+	border-bottom: 2px solid #333;
+}
+.table tfoot tr {
+	border-top: 2px solid #333;
+	border-bottom: 2px solid #333;
+}
+.table tr th {
+	padding: 8px;
+	text-align: left;
+}
+.table tr td {
+	padding: 8px;
+	text-align: left;
+}
+
+@media print {
+   body {
+	font-family: sans-serif;
+	font-size: 14px;
+	color: #333;
+	padding: 0;
+	margin:0;
+}
+.main_title{
+	font-size:24px;
+	color:#0000ff;
+	margin: 0 0 10px;
+	padding-bottom: 10px;
+}
+.page_title {
+	margin:10px 0;
+	bottom: 10px 0;
+	border-bottom: 2px solid #333;
+    border-top: 2px solid #333;
+	font-size:18px;
+}
+    
+table.table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.table thead tr {
+	border-top: 2px solid #333;
+	border-bottom: 2px solid #333;
+}
+.table tfoot tr {
+	border-top: 2px solid #333;
+	border-bottom: 2px solid #333;
+}
+.table tr th {
+	padding: 8px;
+	text-align: left;
+}
+.table tr td {
+	padding: 8px;
+	text-align: left;
+} 
+}

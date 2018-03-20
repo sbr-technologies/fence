@@ -1,0 +1,213 @@
+<%= simple_nested_form_for [@business, @project_group],  html: { name: :frmManageProject, class: :ng_validation } do |f| %>
+<%#= debug(@project) %>
+<div class="body_header_new">
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+        <%#= f.input :name, :class => 'form-control', :wrapper_html => {:class => 'form-group form-group-lg'}, :label => 'Project Group Name', input_html: {'ng-model' => 'project.name','required' => true}%>
+        <div class="form-group string required project_name form-group form-group-lg">
+          <label for="project_name" class="string required control-label"><abbr title="Required">*</abbr>Project Group Name</label>
+          <input type="text" id="project_name" name="project_group_name" class="string form-control" required ng-model="project.project_group_name">
+          <span style="color:#a94442" ng-show="submitted && frmManageProject.project_group_name.$invalid">
+              <label ng-show="submitted && frmManageProject.project_group_name.$error.required">This field is required.</label>
+          </span>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <%#= f.input :project_category_id, collection: project_category_options, include_blank: false, :wrapper_html => {:class => 'form-group form-group-lg'}, input_html: {:'ng-model' => 'project.category_id', :class => 'form-control selectpicker'}%>
+      <div class="form-group form-group-lg">
+        <label class="select optional control-label" for="project_project_category_id"><abbr title="Required">*</abbr>Project Category</label>
+       <div class="input_select_btn">
+          <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" ng-model="selectedProjCat">
+            <span ng-if="selectedProjCat">
+              {{selectedProjCat.description}}
+            </span>
+            <span ng-if="!selectedProjCat">
+              Select Category
+            </span>
+            <span class="caret"></span> 
+          </button>
+         <input type="hidden" name="project_category" ng-model="selectedProjCat.id" required />
+          <span style="color:#a94442" ng-show="submitted && frmManageProject.project_category.$invalid">
+              <label ng-show="submitted && frmManageProject.project_category.$error.required">This Field is required.</label>
+          </span>
+          <ul class="dropdown-menu">
+            <li ng-repeat="item in projectCats"><a href="#" ng-click="selectProjectCat(item)">{{item.description}}</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+      <div class="form-group form-group-lg">
+        <label for="status"><abbr title="Required">*</abbr>Status</label>
+        <div class="input_select_btn">
+          <button type="button" class="btn btn-default btn-block" data-toggle="dropdown">
+            <span ng-if="selectedProjStat">
+              {{selectedProjStat.description}}
+            </span>
+            <span ng-if="!selectedProjStat">
+              Select Status
+            </span>
+            <span class="caret"></span>
+          </button>
+          <input type="hidden" name="project_status" ng-model="selectedProjStat.id" required />
+          <span style="color:#a94442" ng-show="submitted && frmManageProject.project_status.$invalid">
+              <label ng-show="submitted && frmManageProject.project_status.$error.required">This field is required.</label>
+          </span>
+          <ul class="dropdown-menu">
+            <li ng-repeat="status in projectStatusItems">
+              <a href="#" ng-click="selectProjectStatus(status)">{{status.description}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-9">
+        <%= f.input :project_group_description, as: :text, :class => 'form-control', :wrapper_html => {:class => 'form-group form-group-lg'}, input_html: {:'ng-model' => 'project.project_group_description', "rows" => 2} %>
+    </div>
+    <div class="col-sm-6 col-md-9">
+        <%= f.input :project_group_long_description, as: :text, :class => 'form-control', :wrapper_html => {:class => 'form-group form-group-lg'}, input_html: {:'ng-model' => 'project.project_group_long_description', "rows" => 3} %>
+    </div>
+  </div>
+</div>
+<div class="search_category">
+  <div class="row">
+    <div class="col-md-9">
+      <div class="input-group input-group-lg"> 
+        <span class="input-group-addon search_input"><i class="fa fa-search"></i></span>
+        <input type="text" class="form-control" placeholder="Search items" ng-model="search">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span ng-if="selectedFilterCat.description">
+              {{selectedFilterCat.description}}
+            </span>
+            <span ng-if="!selectedFilterCat.description">
+              All
+            </span>
+            <span class="caret"></span> 
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="" ng-click="productFilterCat(null)">All</a></li>
+            <li ng-repeat="item in productCats | filter:searchProduct">
+              <a href="#" ng-click="productFilterCat(item)">{{item.description}}</a>
+            </li>
+          </ul>
+        </div>
+        <!-- /btn-group --> 
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid xyz">
+  <div class="row">
+    <div class="project_description clearfix">
+      <div class="col-sm-5">
+        <div class="row">
+          <div class="table-responsive project_description_left">
+            <table class="table table-striped table-hover">
+              <caption>
+                All
+              </caption>
+              <thead>
+                <tr>
+                  <th class="text-center row_add" width="7%"></th>
+                  <th><a href="" ng-init="sort('product_name')" ng-click="sort('product_name')">Item Description
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='product_name'" ng-class="{'fa-sort-alpha-desc':!reverse,'fa-sort-alpha-asc':reverse}"></i>
+                    </a>
+                  </th>
+                  <th><a href="#" ng-click="sort('product_sku')">SKU
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='product_sku'" ng-class="{'fa-sort-alpha-desc':!reverse,'fa-sort-alpha-asc':reverse}"></i>
+                    </a>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-hide="productsLoaded"><td colspan="3" class="text-center">Loading...</td></tr>
+                <tr dir-paginate="item in items|orderBy:sortKey:!reverse|filter:isItemSelected|filter:search|filter:filterProdutByCat|itemsPerPage:10" uib-popover="{{item.description}}" popover-trigger="mouseenter">
+                  <td class="row_add text-center">
+                    <a href="#" class="btn btn_add_td btn-default2" ng-click="addSelection(item)">
+                      <i class="fa fa-plus"></i>
+                    </a>
+                  </td>
+                  <td ng-bind-html="item.product_name | highlight:search"></td>
+                  <td ng-bind-html="item.product_sku | highlight:search"></td>
+                </tr>
+              </tbody>
+            </table> 
+            <dir-pagination-controls
+              max-size="6"
+              direction-links="true"
+              boundary-links="true" >
+            </dir-pagination-controls>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-7 project_description_right_table">
+        <div class="table-responsive project_description_left project_description_left_scroll">
+          <table class="table table-bordered">
+            <caption>
+              Shortlisted
+            </caption>
+            <thead>
+              <tr>
+                <th class="text-center row_add" width="7%"></th>
+                <%#*<th width="35%">Item Description</th>%>
+                <th width="35%"><a href="" ng-click="sortAlt('product_name')">Item Description
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKeyAlt=='product_name'" ng-class="{'fa-sort-alpha-desc':!reverseAlt,'fa-sort-alpha-asc':reverseAlt}"></i>
+                    </a>
+                </th>
+                <th class="text-center" width="17%">
+                  <label class="string required control-label">
+                    <%#*<abbr title="required">*</abbr>%>Qty.
+                  </label>
+                </th>
+                <th class="text-center" width="12%">
+                  <label class="string required control-label">
+                    <%#*<abbr title="required">*</abbr>%>UOM
+                  </label>
+                </th>
+                <th class="text-center" width="12%">
+                  <label class="string required control-label">
+                    <%#*<abbr title="required">*</abbr>%>Labor Hrs.
+                  </label>
+                </th>
+                <th class="text-center" width="17%">
+                  <label class="string required control-label">
+                    <%#*<abbr title="required">*</abbr>%>Labor Cost
+                  </label>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in selection | orderBy:sortKeyAlt:!reverseAlt | filter:search">
+                <td class="text-center row_add">
+                  <a href="#" class="btn btn_add_td btn-default2" ng-click="removeSelection(item)">
+                    <i class="fa fa-minus"></i>
+                  </a>
+                </td>
+                <td ng-bind-html="item.product_name | highlight:search"></td>
+                <td>
+                  <input type="number" class="form-control qty" maxlength="5" placeholder="" ng-model="item.quantity">
+                </td>
+                <td class="text-center">
+                  <%= select_tag :unit_of_measurement_id,  options_for_select(uom_items), {:class => 'form-control uom_select', :include_blank => false, :'ng-model' => 'item.uom_item_code'} %>
+                </td>
+                <td class="text-center">
+                  <input type="number" class="form-control laborhours laborhours50" placeholder="" ng-model="item.labor_hours">
+                </td>
+                <td class="text-right">
+                  <div class = "input-group">
+                    <span class = "input-group-addon">$</span>
+                    <input type="text" class="form-control laborhours laborhours50" placeholder="" ng-model="item.labor_cost">
+                 </div>
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,82 @@
+:javascript
+  table = $('.lookup_values').DataTable({
+            'order': [[1, 'asc']],
+            'bLengthChange': false,
+            'bInfo': false,
+            'bPaginate': false,
+            'columnDefs': [
+            {
+              'targets': [0],
+              'visible': false,
+              'searchable': false
+            }, {
+              'targets': [3],
+              'sortable': false,
+              'searchable': false
+              }, {
+              'targets': [4],
+              'sortable': false,
+              'searchable': false
+              }
+            ]
+          });
+  $('.lookup_values tbody').on('click', 'button.edit', function() {
+    data = table.row($(this).closest('tr')[0]).data();
+    console.log(data)
+    $('#myModal').find('.lookup_object_id').val(data[0]);
+    $('#myModal').find('.description').val(data[1]);
+    $('#myModal').find('.long_description').val(data[2]);
+    $('#myModal').modal('show');
+  });
+
+  $( document ).ajaxComplete(function() {
+    $('.ajax_loader').hide();
+  });
+
+  $("form").on("ajax:success", function(e, data, status, xhr) {
+    table.clear();
+    i = 0;
+    while (i < data.length) {
+      delLink = '';
+      row = data[i];
+      if(row['can_destroy?'] == true){
+        delLink = '<a href="/business/1/lookup_items/'+ row.id +'" class="btn btn-danger" data-method="delete" rel="nofollow" data-remote="true" data-confirm="Are you sure?"><i class="fa fa-trash"></i></a>';
+      }
+      table.row.add([row.id, row.description, row.long_description, '<button class="btn btn-default edit"><i class="fa fa-pencil"></i></button>', delLink]);
+      i++;
+    }
+    table.draw();
+    return $('#myModal').modal('hide');
+  }).on("ajax:error", function(e, xhr, status, error) {
+    return alert('errror');
+  });
+
+  $('#myModal').on('show.bs.modal', function() {
+    validator = $('form.edit_business:first').validate();
+    validator.resetForm();
+    $('.has-error').removeClass('has-error');
+    $('.has-success').removeClass('has-success');
+    $('.description').rules('add', {
+      remote: {
+        url: 'lookup_items/unique_name',
+        type: 'get',
+        data: {
+          description: function() {
+            return $('.description').val();
+          },
+          lookup_object_id: function() {
+            return $('.lookup_object_id').val();
+          },
+          lookup_type_object_id: function() {
+            return $('.lookup_type_object_id').val()
+          }
+        }
+      },
+      messages: {
+        remote: 'has already been taken'
+      }
+    });
+  });
+  $('#myModal').on('hidden.bs.modal', function() {
+    return $('form .inputs input, form .inputs textarea').not('.lookup_type_object_id').val('');
+  });

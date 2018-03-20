@@ -1,0 +1,99 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require dataTables/jquery.dataTables
+ *= require bootstrap.min
+ *= require bootstrap-datepicker3.standalone
+ *= require contracts
+ *= require customers
+ *= require custompdf.css
+ *= require employees
+ *= require jquery.ui.theme
+ *= require manufacturers
+ *= require organization
+ *= require pdf
+ *= require simple-sidebar
+ *= require strength
+ *= require bootstrap-select
+ *= require ng-scrollable
+ *= require autocomplete
+ *= require ng-ckeditor
+ *= require site
+ *= require_self
+ */
+
+/* @import "bootstrap-sprockets"; */
+/* @import "bootstrap"; */
+@import "font-awesome";
+
+/* body {
+  padding-top: 60px;
+  padding-bottom: 20px;
+} */
+
+/*.panel-heading {
+  text-align: center;
+} */
+
+.table-scrollable{
+    overflow: auto;
+}
+
+.add_new {
+  float: right;
+  height: 50px;
+}
+
+.header {
+  font-size: 30px;
+  text-align: center;
+}
+
+.index_header {
+  font-size: 30px; 
+  text-align: right;
+}
+
+.boolean{
+  margin-top: 15px;
+}
+
+.error_msg_float_limit {
+  color: red;
+}
+
+/* .nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  background-color: #000;
+} 
+
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  background-color: #000;
+  border-color: #337ab7;
+} */
+
+
+.error_msg {
+  color: red;
+}
+
+.form_error{
+  color: #a94442;
+}
+
+.amount, .right_justified {
+  text-align: right !important;
+}

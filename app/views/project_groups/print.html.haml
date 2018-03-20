@@ -1,0 +1,36 @@
+%html
+  %head
+    %meta{name: 'pdfkit-header_html', content: organization_pdf_name_url(@organization, @project, protocol: 'http') }
+    %meta{name: 'pdfkit-footer_html', content: organization_pdf_project_footer_url(@organization, @project, protocol: 'http') }
+
+  %body
+    .container.first
+      .row
+        %hr
+        %h4.project_group_name
+          Project Group :
+          = @project.name
+        %hr
+      .row
+        .col-md-5.name_description
+          Item Description
+        .col-md-1
+          &nbsp
+        .col-md-1.quantity_description
+          Quantity
+        .col-md-1
+          &nbsp
+        .col-md-3.uom_description
+          Unit Of Measure
+      &nbsp
+      %hr
+      - @project.project_products.each do |product|
+        .row.products
+          .col-md-5.name
+            = product.name
+          .col-md-2.quantity
+            = product.quantity
+          .col-md-1
+            &nbsp
+          .col-md-4.uom
+            = product.unit_of_measurement.description

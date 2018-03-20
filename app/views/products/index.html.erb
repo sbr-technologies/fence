@@ -1,0 +1,188 @@
+<div ng-controller="productCtrl">
+<div class='supplier_title'>
+  <h1>Products</h1>
+</div>
+<div class='body_header'>
+  <div class='row'>
+    <div class='col-sm-5'>
+      <div class='col-xs-6'>
+          <%= link_to 'Add Product', new_business_product_path(@business), class: 'btn btn-success1 btn-lg btn-block'  %>
+      </div>
+      <div class='col-xs-6'>
+        <%= link_to('Delete', '#deleteConfirmationDialog', :class => 'btn btn-default1 btn-lg btn-block', :'ng-disabled' => '!isChecked()', :data => {:toggle => 'modal'}) %>
+      </div>
+    </div>
+    <div class='col-sm-7'>
+      <div class='col-sm-10'>
+        <div class='table_search_div'>
+          <div class='input-group form-group-lg'>
+            <span class='input-group-addon'>
+              <i class='fa fa-search'></i>
+            </span>
+              <input class="form-control" ng-model="search" placeholder="Search" type="search" />
+          </div>
+        </div>
+      </div>
+      <%#*<div class='col-sm-2 print_div'>%>
+        <%#*<a href="#printConfirmationDialog" class="btn btn-link btn-lg" data-toggle="modal" ng-disabled="!isChecked()"><i class='fa fa-print'></i> Print</a>%>
+      <%#*</div>%>
+    </div>
+  </div>
+</div>
+<div class='container-fluid xyz'>
+  <div>
+    <div class='row'>
+      <div class='table-responsive dashboarde_table row_margin0'>
+        <form action="#" name="frm_product">
+        <table class="table tab-content"  ng-init="getProducts()">
+            <thead>
+              <tr>
+                <th class="text-center" width="5%">
+                  <div class='checkbox_div'>
+                    <label for='checkall'>
+                      <input id='checkall' type="checkbox" ng-model="selectedAll" ng-click="toggleSeleted()">
+                      <span></span>
+                    </label>
+                  </div>
+                </th>
+                <th><a href="" ng-click="sort('product_sku')">SKU
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='product_sku'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                    <a href="" ng-click="sort('product_name')">Name
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='product_name'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                  </div>
+                </th>
+                <th width="15%">
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('category_item_code')">Category
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='category_item_code'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th width="15%">
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('uom_item_code')">UOM
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='uom_item_code'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th width="15%">
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('status')">Status
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='status'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th width="5%">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-hide="listLoaded">
+                  <td colspan="7" class="text-center">Loading...</td>
+              </tr>
+              <tr dir-paginate="product in products|orderBy:sortKey:reverse|filter:search|itemsPerPage:30">
+                <td width="5px" align="center">
+                  <div class="checkbox_div">
+                    <label for="checkbox_{{product.id}}">
+                      <input 
+                        type="checkbox" 
+                        id="checkbox_{{product.id}}"
+                        value="{{product.id}}"
+                        ng-checked="product.checked"
+                        ng-model="product.checked"
+                        >
+                      <span></span>
+                    </label>
+                  </div>
+                </td>
+                <td width="200px">
+                  <div ng-hide="product.skuEditorEnabled">
+                    <a href="#" ng-click="enableSkuEditor(product)" ng-bind-html="product.product_sku | highlight:search "></a>
+                  </div>
+                  <div ng-show="product.skuEditorEnabled">
+                    <input ng-model="product.editableSku" ng-show="product.skuEditorEnabled" name="txt_product_sku" class="input_block product_sku" ng-unique-product-sku>
+                    <div class="inline_edit_buttons"><a href="#" ng-click="updateField(product, 'product_sku', 'editableSku')">Save</a>
+                    or
+                    <a href="#" ng-click="disableSkuEditor(product)">cancel</a></div>
+                  </div>
+                </td>
+                
+                <td width="200px">
+                  <div ng-hide="product.nameEditorEnabled">
+                    <a href="#" ng-click="enableNameEditor(product)" ng-bind-html="product.product_name | highlight:search"></a>
+                  </div>
+                  <div ng-show="product.nameEditorEnabled">
+                    <input ng-model="product.editableName" ng-show="product.nameEditorEnabled" name="txt_product_name" class="input_block product_name" ng-unique-product-name>
+                    <div class="inline_edit_buttons"><a href="#" ng-click="updateField(product, 'product_name', 'editableName')">Save</a>
+                    or
+                    <a href="#" ng-click="disableNameEditor(product)">cancel</a></div>
+                  </div>
+                </td>
+                
+                <td>
+                  <div class="relativ_div" ng-hide="product.categoryDdEnabled">
+                    {{product.category}}
+                    <span class="shotring_part1">
+                      <a class="shotring_part1_top" href="#" title="Edit" ng-click="enableCategoryDd(product)" focus-next>
+                        <i class="fa fa-angle-down"></i>
+                      </a>
+                    </span>
+                  </div>
+                  <div ng-show="product.categoryDdEnabled">
+                    <%= select_tag :uom_item_code,  options_for_select(product_category_items), {:class => 'select form-control', "ng-model" => "product.editableCategoryId", 'ng-change' => 'updateField(product, "category_item_code", "editableCategoryId")', 'ng-blur' => 'disableCategoryDd(product)'} %>
+                  </div>
+                </td>
+                
+                <td>
+                  <div class="relativ_div" ng-hide="product.uomDdEnabled">
+                    {{product.unit_of_measure}}
+                    <span class="shotring_part1">
+                      <a class="shotring_part1_top" href="#" title="Edit" ng-click="enableUomDd(product)" focus-next>
+                        <i class="fa fa-angle-down"></i>
+                      </a>
+                    </span>
+                  </div>
+                  <div ng-show="product.uomDdEnabled">
+                    <%= select_tag :uom_item_code,  options_for_select(uom_items), {:class => 'select form-control', "ng-model" => "product.editableUomId", 'ng-change' => 'updateField(product, "uom_item_code", "editableUomId")', 'ng-blur' => 'disableUomDd(product)'} %>
+                  </div>
+                </td>
+                
+                <td>
+                  <div class="relativ_div" ng-hide="product.statusDdEnabled">
+                    {{product.status}}
+                    <span class="shotring_part1">
+                      <a class="shotring_part1_top" href="#" title="Edit" ng-click="enableStatusDd(product)" focus-next>
+                        <i class="fa fa-angle-down"></i>
+                      </a>
+                    </span>
+                  </div>
+                  <div ng-show="product.statusDdEnabled">
+                    <%= select_tag :uom_item_code,  options_for_select(product_status_items), {:class => 'select form-control', "ng-model" => "product.editableStatusId", 'ng-change' => 'updateField(product, "status_item_code", "editableStatusId")', 'ng-blur' => 'disableStatusDd(product)'} %>
+                  </div>
+                </td>
+                
+                <td>
+                  <%= link_to URI.unescape(edit_business_product_path(@business, '{{product.id}}')), data: { toggle:'tooltip'}, title: 'Edit', class: 'btn btn-default' do
+                      '<i class="fa fa-pencil"></i>'.html_safe
+                      end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+          <dir-pagination-controls
+            max-size="7"
+            align="center"
+            direction-links="true"
+            boundary-links="true" >
+          </dir-pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render template: 'products/_confirmation_delete_dialog.html.haml' %>
+</div>

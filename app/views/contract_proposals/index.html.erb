@@ -1,0 +1,224 @@
+<div ng-controller="contractCtrl">
+<div class='project_title'>
+  <h1>Contract Proposal List</h1>
+</div>
+<div class='body_header'>
+  <div class='row'>
+    <div class='col-sm-5'>
+      <div class='col-xs-6'>
+          <%= link_to 'Add New', new_business_contract_proposal_path(@business), class: 'btn btn-success1 btn-lg btn-block'  %>
+      </div>
+      <div class='col-xs-6'>
+        <%#*<a class='btn btn-default1 btn-lg btn-block'>Delete</a>%>
+        <%= link_to('Delete', '#deleteConfirmationDialog', :class => 'btn btn-default1 btn-lg btn-block', :'ng-disabled' => '!isChecked()', :data => {:toggle => 'modal'}) %>
+      </div>
+    </div>
+    <div class='col-sm-7'>
+      <div class='col-sm-10'>
+        <div class='table_search_div'>
+          <div class='input-group form-group-lg'>
+            <span class='input-group-addon'>
+              <i class='fa fa-search'></i>
+            </span>
+              <input class="form-control" ng-model="search" placeholder="Search" type="search" />
+          </div>
+        </div>
+      </div>
+      <div class='col-sm-2 print_div'>
+        <a href="#printConfirmationDialog" class="btn btn-link btn-lg" data-toggle="modal" ng-disabled="!isChecked()"><i class='fa fa-print'></i> Print</a>
+      </div>
+    </div>
+  </div>
+</div>
+<form name="frmContractProposals" id="frmContractProposals">
+  <div class='container-fluid xyz'>
+  <div>
+    <div class='row'>
+      <div class='table-responsive dashboarde_table row_margin0'>
+        <table class="table tab-content"  ng-init="getContracts()">
+            <thead>
+              <tr>
+                <th class="text-center">
+                  <div class='checkbox_div'>
+                    <label for='checkall'>
+                      <input id='checkall' type="checkbox" ng-model="selectedAll" ng-click="toggleSeleted()">
+                      <span></span>
+                    </label>
+                  </div>
+                </th>
+                <th><a href="" ng-click="sort('job_number')">Job no.
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='job_number'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                    <a href="" ng-click="sort('customer')">Customer
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='customer'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                  </div>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('amount')">Amount
+                    <i class="fa fa-sort-amount-asc" ng-show="sortKey=='amount'" ng-class="{'fa-sort-amount-desc':reverse,'fa-sort-amount-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('proposal_date')">Proposal Date
+                    <i class="fa fa-sort-numeric-asc" ng-show="sortKey=='proposal_date'" ng-class="{'fa-sort-numeric-desc':reverse,'fa-sort-numeric-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('start_date')">Start Date
+                    <i class="fa fa-sort-numeric-asc" ng-show="sortKey=='start_date'" ng-class="{'fa-sort-numeric-desc':reverse,'fa-sort-numeric-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('completion_date')">Completion Date
+                    <i class="fa fa-sort-numeric-asc" ng-show="sortKey=='completion_date'" ng-class="{'fa-sort-numeric-desc':reverse,'fa-sort-numeric-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('status_item_code')">Status
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='status_item_code'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-hide="listLoaded">
+                <td colspan="9" class="text-center">Loading...</td>
+              </tr>
+              <tr dir-paginate="contract in contracts|orderBy:sortKey:reverse|filter:search|itemsPerPage:30">
+                <td width="5px" align="center">
+                  <div class="checkbox_div">
+                    <label for="checkbox_{{contract.id}}">
+                      <input 
+                        type="checkbox" 
+                        id="checkbox_{{contract.id}}"
+                        value="{{contract.id}}"
+                        ng-checked="contract.checked"
+                        ng-model="contract.checked"
+                        >
+                      <span></span>
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  <div ng-hide="contract.editorJobNoEnabled">
+                    <a href="#" ng-click="enableEditorJobNo(contract)" ng-bind-html="contract.job_number | highlight:search"></a>
+                  </div>
+                  <div ng-show="contract.editorJobNoEnabled">
+                    <input ng-model="contract.job_number" name="txt_job_number" class="input_block contract_job_number" ng-unique-job-no>
+                    <a href="#" ng-click="updateContractField(contract)">Save</a>
+                    or
+                    <a href="#" ng-click="disableEditorJobNo(contract)">cancel</a>
+                  </div>
+                </td>
+                <td width="200px">
+                  <div class="relativ_div" ng-hide="contract.catDdEnabled">
+                    {{contract.customer}}
+                  </div>
+                </td>
+                <td>
+                  <div class="relativ_div">
+                    {{contract.amount}}
+                  </div>
+                </td>
+                <td>
+                  <div ng-hide="contract.editorPropDateEnabled">
+                    <a href="#" ng-click="enableEditorPropDate(contract)" ng-bind-html="contract.proposal_date | date:dateFormat | highlight:search"></a>
+                  </div>
+                  <div ng-show="contract.editorPropDateEnabled">
+                    <div class="input-group" style="width: 120px;">
+                        <input class="form-control" type="text" min-date="dateToday" uib-datepicker-popup="{{dateFormat}}" ng-model="contract.proposal_date" is-open="contract.isOpenPropDate" show-weeks="false" show-button-bar="false" datepicker-append-to-body="true" />
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" ng-click="openPropDate($event, contract)"><i class="fa fa-calendar"></i></button>
+                        </span>
+                      </div>
+                    <%#*<input ng-model="item.proposal_date" class="input_block">%>
+                    <a href="#" ng-click="updateContractField(contract)">Save</a>
+                    or
+                    <a href="#" ng-click="disableEditorPropDate(contract)">cancel</a>
+                  </div>
+                </td>
+                <td>
+                  <div ng-hide="contract.editorStartDateEnabled">
+                    <a href="#" ng-click="enableEditorStartDate(contract)" ng-bind-html="contract.start_date | date:dateFormat | highlight:search"></a>
+                  </div>
+                  <div ng-show="contract.editorStartDateEnabled">
+                    <div class="input-group" style="width: 120px;">
+                        <input class="form-control" type="text" required min-date="dateToday" max-date="contract.completion_date" uib-datepicker-popup="{{dateFormat}}" ng-model="contract.start_date" is-open="contract.isOpenStartDate" show-weeks="false" show-button-bar="false" datepicker-append-to-body="true" />
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" ng-click="openStartDate($event, contract)"><i class="fa fa-calendar"></i></button>
+                        </span>
+                      </div>
+                    <%#*<input ng-model="contract.proposal_date" class="input_block">%>
+                    <a href="#" ng-click="updateContractField(contract)">Save</a>
+                    or
+                    <a href="#" ng-click="disableEditorStartDate(contract)">cancel</a>
+                  </div>
+                </td>
+                <td>
+                  <div ng-hide="contract.editorCompDateEnabled">
+                    <a href="#" ng-click="enableEditorCompDate(contract)" ng-bind-html="contract.completion_date | date:dateFormat | highlight:search"></a>
+                  </div>
+                  <div ng-show="contract.editorCompDateEnabled">
+                    <div class="input-group" style="width: 120px;">
+                        <input class="form-control" type="text" min-date="contract.start_date" uib-datepicker-popup="{{dateFormat}}" ng-model="contract.completion_date" is-open="contract.isOpenCompDate" show-weeks="false" show-button-bar="false" datepicker-append-to-body="true" />
+                        <span class="input-group-btn">
+                          <button class="btn btn-default" ng-click="openCompDate($event, contract)"><i class="fa fa-calendar"></i></button>
+                        </span>
+                      </div>
+                    <%#*<input ng-model="contract.proposal_date" class="input_block">%>
+                    <a href="#" ng-click="updateContractField(contract)">Save</a>
+                    or
+                    <a href="#" ng-click="disableEditorCompDate(contract)">cancel</a>
+                  </div>
+                </td>
+                <td  width="15%">
+                  <div class="relativ_div" ng-hide="contract.ddStatusEnabled">
+                    {{contract.status}}
+                    <span class="shotring_part1">
+                      <a class="shotring_part1_top" href="#" title="Edit" ng-click="enableDdStatus(contract)" focus-next>
+                        <i class="fa fa-angle-down"></i>
+                      </a>
+                    </span>
+                  </div>
+                  <div ng-show="contract.ddStatusEnabled">
+                    <%= select_tag :status,  options_for_select(contract_proposal_status_items), {:class => 'select form-control', "ng-model" => "contract.editableStatusId", 'ng-change' => 'updateContractField(contract)', 'ng-blur' => 'disableDdStatus(contract)'} %>
+                  </div>
+                </td>
+                <td>
+                  <%= link_to URI.unescape(edit_business_contract_proposal_path(@business, '{{contract.id}}')), data: { toggle:'tooltip'}, title: 'Edit', class: 'btn btn-default' do
+                        '<i class="fa fa-pencil"></i>'.html_safe
+                      end 
+                  %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <dir-pagination-controls
+            max-size="7"
+            align="center"
+            direction-links="true"
+            boundary-links="true" >
+          </dir-pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<%= render template: 'contract_proposals/_confirmation_print_dialog.html.haml' %>
+<%= render template: 'contract_proposals/_confirmation_delete_dialog.html.haml' %>
+</div>

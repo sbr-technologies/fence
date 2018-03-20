@@ -1,0 +1,49 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => 'utf-8'}
+  %body{:onload => 'getPdfInfo()'}
+    %hr
+    %div#footer
+      .pull-left
+        %div#date
+          = Date.today
+      .pull-right
+        %div#pdfkit_page_numbers
+          %span Page:
+          %span#pdfkit_page_current
+          %span of
+          %span#pdfkit_page_count
+
+  :css
+
+    #date {
+      font-size: 14px;
+    }
+
+    #pdfkit_page_numbers {
+      font-size: 14px;
+    }
+
+    hr {
+      border-top: 2px solid #333333;
+    }
+
+    .pull-left {
+      float: left;
+    }
+
+    .pull-right {
+      float: right;
+    }
+
+  :javascript
+    var pdfInfo = {};
+    var x = document.location.search.substring(1).split('&');
+    for (var i in x) { var z = x[i].split('=',2); pdfInfo[z[0]] = unescape(z[1]); }
+    function getPdfInfo() {
+     var page = pdfInfo.page || 1;
+     var pageCount = pdfInfo.topage || 1;
+     document.getElementById('pdfkit_page_current').textContent = page;
+     document.getElementById('pdfkit_page_count').textContent = pageCount;
+    }

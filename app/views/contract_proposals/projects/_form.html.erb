@@ -1,0 +1,223 @@
+<div class="project_div">
+  <div class="dropdown_custom">
+    <div class="dropdown_custom_toggle project_title_list">Project
+      <button type="button" class="btn btn-default" ng-click="getProjectCategories()"><i class="fa fa-plus"></i></button>
+    </div>
+    <div class="dropdown_custom_menu">
+      <div class="customer_not_selected clearfix" ng-hide="customerSelected"><div class="col-sm-12"><i class="fa fa-warning"></i> Please Select Customer</div></div>
+      <div class="projects_to_add" ng-show="customerSelected">
+        <div class="search_category">
+          <div class="form-group">
+            <div class="input-group input-group-lg"> <span class="input-group-addon search_input"><i class="fa fa-search"></i></span>
+              <input type="text" class="form-control" placeholder="Search items" ng-model="searchProject">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> <span ng-if="selectedProjFilterCat.description"> {{selectedProjFilterCat.description}} </span> <span ng-if="!selectedProjFilterCat.description"> All </span> <span class="caret"></span> </button>
+                <ul class="dropdown-menu pull-right">
+                  <li><a href="" ng-click="projectFilterCat(null)">All</a></li>
+                  <li ng-repeat="item in projectCats"><a href="javascript:void(0)" ng-click="projectFilterCat(item)">{{item.description}}</a></li>
+                </ul>
+              </div>
+              <!-- /btn-group --> 
+            </div>
+          </div>
+          <div class="select_btn_div">
+            <span class="project_group_list btn btn-lg btn-default3" ng-class="{select: isApplied(item)==true}" ng-repeat="item in projects | filter:searchProject | filter:filterProjectByCat" ng-click="selectProject(item)">{{item.project_group_name}}</span>
+          </div>
+        </div>
+        <div class="padding divider_foot">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+            <div class="col-xs-6">
+              <button class="btn btn-default1 btn-lg btn-block close-proj" ng-click="resetProjects()">Close</button>
+            </div>
+            <div class="col-xs-6">
+              <button class="btn btn-success1 btn-lg btn-block close-proj" ng-click="applyProjects()">Apply</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="dropdown_custom_bottom">
+    <div class="select_btn_div_all">
+      <div class="alert-default1 alert_but" ng-class="{select: item.project_group_id === selectedProject}" ng-repeat="item in selectedProjects"> <a href="#deleteConfirmationDialog" data-toggle="modal" class="close" title="Delete Project" ng-click="confirmDelete(item)">&times;</a>
+        <button class="flat_button" ng-click="getProjectDetails(item)" ng-disabled="selectedProject === item.project_group_id">{{item.project_group_name}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="project-product-wrapper" ng-hide="selectedProject == null">
+  <div class="project_details clearfix">
+    <div class="col-md-12">
+      <div class="form-group form-group-lg">
+        <label for="projectgroupdescription">Project Group Description</label>
+        <textarea class="form-control" name="description" id="projectgroupdescription" rows="3" ng-model="selectedProjects[selectedProject].cp_pg_description"></textarea>
+<label for="projectgrouplongdescription">Project Group Long Description</label>
+        <textarea class="form-control" name="description" id="projectgrouplongdescription" rows="3" ng-model="selectedProjects[selectedProject].cp_pg_long_description"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="search_category">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="input-group input-group-lg"> <span class="input-group-addon search_input"><i class="fa fa-search"></i></span>
+          <input type="text" class="form-control" placeholder="Search items" ng-model="search">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> <span ng-if="selectedFilterCat.description"> {{selectedFilterCat.description}} </span> <span ng-if="!selectedFilterCat.description"> All </span> <span class="caret"></span> </button>
+            <ul class="dropdown-menu">
+              <li><a href="" ng-click="productFilterCat(null)">All</a></li>
+              <li ng-repeat="item in productCats"> <a href="#" ng-click="productFilterCat(item)">{{item.description}}</a> </li>
+            </ul>
+          </div>
+          <!-- /btn-group --> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid xyz">
+    <div class="row">
+      <div class="project_description clearfix">
+        <div class="col-sm-3">
+          <div class="row">
+            <div class="project_description_left">
+              <div class="table_div">
+                <h2>All</h2>
+                <div class="header_table">
+                  <ul class="clearfix">
+                    <li class="text-center row_add col-xs-2"></li>
+                    <li claSS="col-xs-6"><a href="" ng-init="sort('name')" ng-click="sort('name')">Item Description <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='name'" ng-class="{'fa-sort-alpha-desc':!reverse,'fa-sort-alpha-asc':reverse}"></i> </a> </li>
+                    <li class="col-xs-4"><a href="#" ng-click="sort('sku')">SKU <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='sku'" ng-class="{'fa-sort-alpha-desc':!reverse,'fa-sort-alpha-asc':reverse}"></i> </a> </li>
+                  </ul>
+                </div>
+                <div class="body_table">
+                  <div class="list_table" ng-scrollable="{wheelSpeed:10}">
+                    <ul class="clearfix" ng-hide="productsLoaded">
+                      <li colspan="3" class="text-center">Loading...</li>
+                    </ul>
+                    <ul class="clearfix" ng-repeat="item in items|orderBy:sortKey:!reverse|filter:search|filter:filterProdutByCat|filter:isItemSelected" uib-popover="{{item.description}}" popover-trigger="mouseenter">
+                      <li class="row_add text-center col-xs-2"> <a href="javascript:void(0)" class="btn btn_add_td btn-default2" ng-click="addSelection(item)"> <i class="fa fa-plus"></i> </a> </li>
+                      <li class="col-xs-6" ng-bind-html="item.product_name | highlight:search"></li>
+                      <li class="col-xs-4" ng-bind-html="item.product_sku | highlight:search"></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-9 project_description_right_table shortlisted_items">
+          <div class="table-responsive project_description_left project_description_left_scroll">
+            <div class="table_div">
+              <h2>Shortlisted</h2>
+              <div class="header_table">
+                <ul class="clearfix">
+                  <li class="ulcol4 inn4 border-right1">
+                    <ul>
+                      <li class="row_add licol3"></li>
+                      <li class="licol9"><a href="#" ng-click="sortAlt('product_name')">Item Description <i class="fa fa-sort-alpha-asc" ng-show="sortKeyAlt=='product_name'" ng-class="{'fa-sort-alpha-desc':!reverseAlt,'fa-sort-alpha-asc':reverseAlt}"></i> </a></li>
+                    </ul>
+                  </li>
+                  <li class="ulcol3 inn3 border-right1">
+                    <ul>
+                      <li class="licol3"> Qty. </li>
+                      <li class="licol3 innli3"> UOM </li>
+                      <li class="licol6"> Retail Price </li>
+                    </ul>
+                  </li>
+                  <li class="ulcol3 border-right1">
+                    <ul>
+                      <li class="licol5"> Labor Hrs. </li>
+                      <li class="licol7"> Labor Cost </li>
+                    </ul>
+                  </li>
+                  <li class="ulcol2">
+                    <ul>
+                      <li class="licol12"> Total Amount </li>
+                    </ul>
+                  </li>
+
+                </ul>
+              </div>
+              <div class="body_table">
+                <div class="list_table" ng-scrollable="{wheelSpeed:10}">
+                  <ul ng-repeat="item in selectedProjects[selectedProject].pg_products | filter:search | filter:filterProdutByCat | orderBy:sortKeyAlt:!reverseAlt" class="clearfix">
+                    <li class="ulcol4 inn4 border-right1">
+                      <ul>
+                        <li class="text-center row_add licol3"> <a href="#" class="btn btn_add_td btn-default2" ng-click="removeSelection(item)"> <i class="fa fa-minus"></i> </a> </li>
+                        <li class="licol9" ng-bind-html="item.product_name | highlight:search"></li>
+                      </ul>
+                    </li>
+                    <li class="ulcol3 inn3 border-right1">
+                      <ul>
+                        <li class="licol3">
+                          <input type="number" class="form-control qty text-center" max="9999" placeholder="" ng-model="item.quantity">
+                        </li>
+                        <li class="licol3 innli3"> <%= select_tag :unit_of_measurement_id,  options_for_select(uom_items), {:class => 'form-control uom_select', :include_blank => false, :'ng-model' => 'item.uom_item_code'} %> </li>
+                        <li class="licol6">
+                          <div class = "input-group"> <span class = "input-group-addon">$</span>
+                            <input type="text" class="form-control text-right" placeholder="" ng-model="item.retail_price">
+                          </div>
+                          <%#*<input type="text" class="form-control text-right" placeholder="" ng-model="item.retail_price" />%>
+                        </li>
+
+                      </ul>
+                    </li>
+                    <li class="ulcol3 border-right1">
+                      <ul>
+                        <li class="licol5">
+                          <input type="number" class="form-control laborhours laborhours50 text-center" placeholder="" ng-model="item.labor_hours">
+                        </li>
+                        <li class="licol7">
+                          <div class = "input-group"> <span class = "input-group-addon">$</span>
+                            <input type="number" class="form-control laborhours laborhours50 text-right" placeholder="" ng-model="item.labor_cost">
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="ulcol2">
+                      <ul>
+                        <li class="licol12">
+                          <%#*<div class = "input-group"> <span class = "input-group-addon">$</span>%>
+                            <input type="text" class="form-control text-right" placeholder="" value="${{item | totalAmount}}" readonly>
+                          <%#*</div>%>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="footer_table">
+                <ul class="clearfix">
+                  <li class="ulcol4 inn4 border-right1">
+                    <ul>
+                      <li class="row_add licol6 text-center">Total</li>
+                      <li class="licol6 text-right">{{selectedProjects[selectedProject].pg_products.length}} Items</li>
+                    </ul>
+                  </li>
+                  <li class="ulcol3 inn3 border-right1">
+                    <ul>
+                      <li class="licol6"> {{selectedProjects[selectedProject].pg_products | totalQty}} </li>
+                      <li class="licol6 text-right"> ${{selectedProjects[selectedProject].pg_products | totalRtlPrice}} </li>
+                    </ul>
+                  </li>
+                  <li class="ulcol3 border-right1">
+                    <ul>
+                      <li class="licol12"> {{selectedProjects[selectedProject].pg_products | totalLaborHrs}} Hrs. </li>
+                    </ul>
+                  </li>
+                  <li class="ulcol2">
+                    <ul>
+                      <li class="licol12 text-center"> ${{selectedProjects[selectedProject].pg_products | totalProjectAmount}} </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render template: 'contract_proposals/projects/_delete_confirmation_dialog' %>

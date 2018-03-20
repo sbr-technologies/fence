@@ -1,0 +1,20 @@
+.create_project{:ng => {:controller => 'contractCtrl', :init => "getContract(#{@contract_proposal.id})"}}
+  .breadcrumbs_save_close.clearfix
+    %form{:name => 'frm_contract', :novalidate => true}
+      .row
+        .col-sm-8
+          .row
+            %ol.breadcrumb
+              %li 
+                = link_to 'Contract Proposals', business_contract_proposals_path(@business)
+              %li.active
+                Edit Proposal
+        .col-sm-4
+          .row
+            .col-xs-6
+              %button{:class => 'btn btn-success1 btn-lg btn-block',  :ng => {:click => 'updateContract(contract)'}}
+                Save
+            .col-xs-6
+              = link_to 'Close', business_contract_proposals_path(@business), :class => 'btn btn-default1 btn-lg btn-block'
+      = render 'form'
+  = render :template => "contract_proposals/_new_customer_form_popup.html.erb"

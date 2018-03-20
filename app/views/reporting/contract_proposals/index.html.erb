@@ -1,0 +1,227 @@
+<div ng-controller="contractCtrl">
+<div class='project_title'>
+  <h1>Contract Proposal List</h1>
+</div>
+<div class='body_header'>
+  <div class="clearfix custom_search_part" ng-init="initFilter();">
+	<div class="custom_input_part">
+		<div class="col-md-3 paddingright0">
+			<div class="form-group form-group-lg clearfix">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Start Date" max-date="proposals_filter.completion_date" uib-datepicker-popup="{{dateFormat}}" ng-model="proposals_filter.start_date" is-open="proposals_filter.isOpenStartDateFilter" show-weeks="false" show-button-bar="false" datepicker-append-to-body="true">
+					<span class="input-group-addon" ng-click="openStartDateFilter($event, proposals_filter)">
+					<div class="glyphicon glyphicon-calendar"></div>
+					</span> </div>
+			</div>
+		</div>
+		<div class="col-md-3 paddingright0">
+			<div class="form-group form-group-lg clearfix">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="End Date" min-date="proposals_filter.start_date" uib-datepicker-popup="{{dateFormat}}" ng-model="proposals_filter.completion_date" is-open="proposals_filter.isOpenCompDateFilter" show-weeks="false" show-button-bar="false" datepicker-append-to-body="true" >
+					<span class="input-group-addon" ng-click="openCompDateFilter($event, proposals_filter)">
+					<div class="glyphicon glyphicon-calendar"></div>
+					</span> </div>
+			</div>
+		</div>
+		<div class="col-md-3 paddingright0">
+			<div class="form-group form-group-lg clearfix">
+                          <div class="input_select_btn">
+                            <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" required>
+                              <span ng-if="selectedCustomerFilter.id">
+                                {{selectedCustomerFilter.name}}
+                              </span>
+                              <span ng-if="!selectedCustomerFilter.id">
+                                Select Customer
+                              </span>
+                              <span class="caret"></span> 
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li role="presentation">
+                                <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                  </span>
+                                  <input type="text" class="form-control" placeholder="Search" ng-model="searchCustomer"></input>
+                                </div>
+                              </li>
+                              <li>
+                                <ul class="scrollable">
+                                  <li ng-repeat="item in customers | filter:searchCustomer">
+                                    <a href="#" ng-click="selectCustomerFilter(item)">{{item.name}}</a>
+                                  </li>
+                                </ul>
+                              </li>
+                              <li ng-show="selectedCustomerFilter.id">
+                                <span ng-click="clearCustomerFilter(proposals_filter)" class="btn btn-block btn-danger">
+                                  <i class="fa fa-times"></i> Clear Filter
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+			</div>
+		</div>
+		<div class="col-md-3 paddingright0">
+			<div class="form-group form-group-lg clearfix">
+                          <div class="form-group form-group-lg clearfix">
+                            <div class="input_select_btn">
+                              <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" required>
+                                <span ng-if="selectedProjectFilter.id">
+                                  {{selectedProjectFilter.project_group_name}}
+                                </span>
+                                <span ng-if="!selectedProjectFilter.id">
+                                  Select Project
+                                </span>
+                                <span class="caret"></span> 
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li role="presentation">
+                                  <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
+                                      <span class="glyphicon glyphicon-search"></span>
+                                    </span>
+                                    <input type="text" class="form-control" placeholder="Search" ng-model="searchProject"></input>
+                                  </div>
+                                </li>
+                                <li>
+                                  <ul class="scrollable">
+                                    <li ng-repeat="item in projects | filter:searchProject">
+                                      <a href="#" ng-click="selectProjectFilter(item)">{{item.project_group_name}}</a>
+                                    </li>
+                                  </ul>
+                                </li>
+                                <li ng-show="selectedProjectFilter.id">
+                                  <span ng-click="clearProjectFilter(proposals_filter)" class="btn btn-block btn-danger">
+                                    <i class="fa fa-times"></i> Clear Filter
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+			</div>
+		</div>
+	</div>
+	<div class="custom_input_part_button">
+		<button type="submit" class="btn btn-primary btn-lg" ng-click="filterContractProposals(proposals_filter)">Submit</button>
+	</div>
+</div>
+<div class="clearfix text-right">
+  <a href="#printListConfirmationDialog" class="btn btn-primary btn-lg" data-toggle="modal" ng-disabled="!isChecked()">Print List</a>
+  <a href="#printConfirmationDialog" class="btn btn-primary btn-lg" data-toggle="modal" ng-disabled="!isChecked()">Print Contact Proposal Details</a>
+</div>
+</div>
+
+<form name="frmContractProposals" id="frmContractProposals">
+  <div class='container-fluid xyz'>
+  <div>
+    <div class='row'>
+      <div class='table-responsive dashboarde_table row_margin0'>
+        <table class="table tab-content"  ng-init="getContracts()">
+            <thead>
+              <tr>
+                <th class="text-center">
+                  <div class='checkbox_div'>
+                    <label for='checkall'>
+                      <input id='checkall' type="checkbox" ng-model="selectedAll" ng-click="toggleSeleted()">
+                      <span></span>
+                    </label>
+                  </div>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                    <a href="" ng-click="sort('proposal_date')">Proposal Date
+                      <i class="fa fa-sort-numeric-asc" ng-show="sortKey=='proposal_date'" ng-class="{'fa-sort-numeric-desc':reverse,'fa-sort-numeric-asc':!reverse}"></i>
+                    </a>
+                  </div>
+                </th>
+                <th>
+                  <a href="" ng-click="sort('job_number')">Job no.
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='job_number'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                </th>
+                <th>
+                  <a href="" ng-click="sort('job_description')">Job Description.
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='job_description'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                    <a href="" ng-click="sort('customer')">Customer
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='customer'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                  </div>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('proposal_amount')">Amount
+                    <i class="fa fa-sort-amount-asc" ng-show="sortKey=='proposal_amount'" ng-class="{'fa-sort-amount-desc':reverse,'fa-sort-amount-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th>
+                  <div class='relativ_div'>
+                  <a href="" ng-click="sort('status_item_code')">Status
+                    <i class="fa fa-sort-alpha-asc" ng-show="sortKey=='status_item_code'" ng-class="{'fa-sort-alpha-desc':reverse,'fa-sort-alpha-asc':!reverse}"></i>
+                  </a>
+                </div>
+                </th>
+                <th width="5%">View</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-hide="listLoaded">
+                <td colspan="8" class="text-center">Loading...</td>
+              </tr>
+              <tr dir-paginate="contract in contracts|orderBy:sortKey:reverse|filter:search|itemsPerPage:30">
+                <td width="5px" align="center">
+                  <div class="checkbox_div">
+                    <label for="checkbox_{{contract.id}}">
+                      <input 
+                        type="checkbox" 
+                        id="checkbox_{{contract.id}}"
+                        value="{{contract.id}}"
+                        ng-checked="contract.checked"
+                        ng-model="contract.checked"
+                        >
+                      <span></span>
+                    </label>
+                  </div>
+                </td>
+                <td>
+                    {{contract.proposal_date | date:dateFormat}}
+                </td>
+                <td>
+                    {{contract.job_number}}
+                </td>
+                <td>
+                    {{contract.job_description | cut:true:50:' ...'}}
+                </td>
+                <td width="200px">
+                    {{contract.customer}}
+                </td>
+                <td>
+                    {{contract.amount}}
+                </td>
+                <td  width="15%">
+                    {{contract.status}}
+                </td>
+                <td>
+                  <%= link_to URI.unescape(business_reporting_contract_proposal_path(@business, '{{contract.id}}')), data: { toggle:'tooltip'}, target: '_blank', title: 'View', class: 'btn btn-default' do
+                        '<i class="fa fa-eye"></i>'.html_safe
+                      end 
+                  %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <dir-pagination-controls
+            max-size="7"
+            align="center"
+            direction-links="true"
+            boundary-links="true" >
+          </dir-pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+<%= render template: 'reporting/contract_proposals/_confirmation_print_list_dialog.html.haml' %>
+<%= render template: 'reporting/contract_proposals/_confirmation_print_dialog.html.haml' %>
+</div>

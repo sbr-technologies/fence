@@ -1,0 +1,300 @@
+en:
+  errors:
+    organization_employees:
+      last_name: 'Last Name is required'
+      first_name: 'First Name is required'
+      number: 'Number is required'
+    organization_employees_employee_info:
+      employee_no: 'Employee number is required'
+    user:
+      business_name: 'Business name is required'
+      email: 'User email is required'
+      password: 'Password is required'
+      password_confirmation: 'Password confirmation is required'
+      password_do_not_match: 'The two password fields dosent match'
+    generic:
+      two_decimal_allowed: 'Only two decimal places are allowed'
+      no_decimal_allowed: 'No decimal places are allowed'
+      invalid_phone_number: 'Please specify a valid phone number'
+      invalid_phone_ext: 'Please specify a valid phone extension'
+      invalid_zip: 'Please provide a valid zipcode'
+    product:
+      sku: 'Product SKU is required'
+      name: 'Product Name is required'
+      supplier_id: 'Supplier is required'
+      manufacturer_id: 'Manufacturer is required'
+    product_product_rates:
+      cost: 'Cost Price is required'
+      retail: 'Retail Price is required'
+    project_group:
+      name: 'Project Name is required'
+    pg_products:
+      quantity: 'Quantity is required'
+      labor_hour: 'Labor Hour is required'
+      labor_rate: 'Labor Rate is required'
+      labor: 'Labor Rate is required'
+      amount: 'Total Amount is required'
+      retail: 'Retail Price is required'
+    employee:
+      first_name: 'First Name is required'
+      last_name: 'Last Name is required'
+    employee_employee_info:
+      employee_no: 'Employee Number is required'
+    customer: 
+      name: 'Customer Name is required'
+      complete_name_required: 'First name and Last name both are required'
+      either_of_name_required: 'Either Name or First/Last name are required'
+    customer_contacts:
+      first_name: 'Customer First Name is required'
+      last_name: 'Customer Last Name is required'
+    employee_addresses:
+      address: 'Employee Address is required'
+      city: 'Employee City is required'
+      state: 'Employee State is required'
+      zip: 'Employee Zip is required'
+      country: 'Employee Country is required'
+    employee_phones:
+      number: 'Phone Number is required'
+    customer_addresses:
+      address: 'Customer Address is required'
+      city: 'Customer City is required'
+      state: 'Customer State is required'
+      zip: 'Customer Zip is required'
+      country: 'Customer Country is required'
+    customer_phones:
+      number: 'Phone Number is required'
+    supplier: 
+      name: 'Supplier Name is required'
+    supplier_contacts:
+      first_name: 'Supplier First Name is required'
+      last_name: 'Supplier Last Name is required'
+    supplier_addresses:
+      address: 'Supplier Address is required'
+      city: 'Supplier City is required'
+      state: 'Supplier State is required'
+      zip: 'Supplier Zip is required'
+      country: 'Supplier Country is required'
+    supplier_phones:
+      number: 'Phone Number is required'
+    manufacturer:
+      name: 'Manufacturer Name is required'
+      number: 'Manufacturer Number is required'
+    manufacturer_addresses:
+      address: 'Manufacturer Address is required'
+      city: 'Manufacturer City is required'
+      state: 'Manufacturer State is required'
+      zip: 'Manufacturer Zip is required'
+      country: 'Manufacturer Country is required'
+    manufacturer_phones:
+      number: 'Phone Number is required'
+    manufacturer_contacts:
+      first_name: 'Manufacturer First Name is required'
+      last_name: 'Manufacturer Last Name is required'
+    contract:
+      customer_id: 'Please select Customer'
+      proposal_date: 'Proposal Date is required'
+    organization:
+      business_name: 'Business Name is required'
+    organization_address:
+      address: 'Organization Address is required'
+      state: 'Organization State is required'
+      city: 'Organization City is required'
+      country: 'Organization Country is required'
+      zip: 'Organization Zip is required'
+    organization_phones:
+      number: 'Phone Number is required'
+      phone_type_id: 'Phone Type is required'
+  date:
+    formats:
+      default: "%m/%d/%d"
+  time:
+    formats:
+      default: "%m/%d/%d"
+  datetime:
+    formats:
+      default: "%m/%d/%d"
+  activerecord:
+    errors:
+      models:
+        employee_info:
+          attributes:
+            hourly_rate:
+              not_a_number: 'must be a number'
+        product:
+          attributes:
+            sku:
+              blank: 'Product SKU is required'
+            name:
+              blank:  'Product name is required'
+        product_rate:
+          attributes:
+            cost_price:
+              not_a_number: 'Please enter a number greater than 0'
+            retail_price:
+              not_a_number: 'Please enter a number greater than 0'
+        project_group:
+          attributes:
+            project_group_name: 
+              blank: 'Project group name is required'
+        pg_product:
+          attributes:
+            quantity: 
+              blank: 'Must be > 0'
+              greater_than_or_equal_to: 'must be > 0'
+            labor_hours: 
+              blank: 'Must be > 0'
+              greater_than_or_equal_to: 'must be > 0'
+            labor_cost: 
+              blank: 'Must be > 0'
+              greater_than_or_equal_to: 'must be > 0'
+        employee:
+          attributes:
+            first_name: 
+              blank: 'Employee first name is required'
+            last_name: 
+              blank: 'Employee last name is required'
+            email: 
+              blank: 'Email is required'
+            password: 
+              blank: 'Password is required'
+        employee_info:
+          attributes:
+            employee_no: 
+              blank: 'Employee no. is required'
+            hourly_rate:
+              not_a_number: 'Please enter a number greater than 0'
+            gross_salary:
+              not_a_number: 'Please enter a number greater than 0'
+            taxes:
+              not_a_number: 'Please enter a number greater than 0'
+            net_salary:
+              not_a_number: 'Please enter a number greater than 0'
+        customer:
+          attributes:
+            name: 
+              blank: 'Customer name is required'
+            first_name: 
+              blank: 'Customer first name is required'
+            last_name: 
+              blank: 'Customer  last name is required'
+        address:
+          single_primary: 'Only one of the address records can be primary!!'
+          attributes:
+            address: 
+              blank: 'Address is required'
+            city: 
+              blank: 'City is required'
+            state: 
+              blank: 'State is required'
+            country: 
+              blank: 'Country is required'
+            zip: 
+              blank: 'Zip is required'
+              invalid: 'Zip is invalid1'
+        phone:
+          single_primary: 'Only one of the phone records can be primary!!'
+          attributes:
+            number: 
+              blank: 'Phone number is required'
+              invalid: 'Phone number entered is invalid1'
+            ext:
+              less_than: 'must be less than 7 digits'
+              greater_than: 'ext number must be positive'
+        supplier:
+          attributes:
+           name: 
+             blank: 'Supplier name is required'
+        contact:
+          single_primary: 'Only one of the contact records can be primary!!'
+          attributes:
+            first_name: 
+              blank: 'Contact first name is required'
+            last_name: 
+              blank: 'Contact last name is required'
+        manufacturer:
+          attributes:
+            name: 
+              blank: 'Manufacturer name is required'
+            number: 
+              blank: 'Manufacturer number is required'
+
+  product:
+    notice: 'Product created successfully..!!'
+    update: 'Product updated successfully..!!'
+    delete: 'Product deleted successfully..!!'
+    delete_selected: 'Selected product(s) deleted successfully..!!'
+    cancel: 'Are you sure you want to cancel ?'
+    prerequisite_msg: 'You currently have no suppliers, manufacturers, or Unit of Measures defined and these fields are required so you will not be able to submit this form to create a new Product'
+    errors:
+      cannot_destroy: 'Cannot destroy product as it associated with project!!'
+
+  product_rates:
+    errors:
+      cost_price: 'must be less than or equal to retail price'
+
+  project_group:
+    notice: 'Project created successfully..!!'
+    update: 'Project updated successfully..!!'
+    delete: 'Project deleted successfully..!!'
+    delete_selected: 'Selected project(s) deleted successfully..!!'
+    print: 'Project printed successfully..!!'
+    prerequisite_msg: 'You currently have no products defined and this is a required field so you will not be able to submit this form to create a new Project'
+
+  manufacturer:
+    notice: 'Manufacturer created successfully..!!'
+    update: 'Manufacturer updated successfully..!!'
+    delete: 'Manufacturer deleted successfully..!!'
+    delete_selected: 'Selected manufacturer(s) deleted successfully..!!'
+    errors:
+      end_date: 'must be after the start date'
+
+  customer:
+    notice: 'Customer created successfully..!!'
+    update: 'Customer updated successfully..!!'
+    delete: 'Customer deleted successfully..!!'
+    delete_selected: 'Selected customer(s) deleted successfully..!!'
+    errors:
+      name_uniqueness: 'customer already exists with given first-last combination'
+      end_date: 'must be after the start date'
+      cannot_destroy: 'Cannot destroy customer as it associated with contract!!'
+
+  supplier:
+    notice: 'Supplier created successfully..!!'
+    update: 'Supplier updated successfully..!!'
+    delete: 'Supplier deleted successfully..!!'
+    delete_selected: 'Selected supplier(s) deleted successfully..!!'
+    errors:
+      end_date: 'must be after the start date'
+
+  employee:
+    created_without_email: 'Employee created successfully ..!!'
+    created_with_email: "A message with a confirmation link has been sent on %{email}. Please follow the link to activate account."
+    update: 'Employee updated successfully ..!!'
+    delete: 'Employee deleted successfully ..!!'
+    delete_selected: 'Selected employee(s) deleted successfully..!!'
+    errors:
+      end_date: 'must be after start date'
+      name_uniqueness: 'employee already exists with given first-last combination'
+    enterprise_errors:
+      number: 'Cannot change employee number of enterprise admin'
+      disable: 'Cannot disable enterprise admin'
+
+
+  employeeinfo:
+    errors:
+      end_date: 'must be after start date'
+
+  contract_proposal:
+    notice: 'Contract proposal created successfully..!!'
+    update: 'Contract proposal updated successfully..!!'
+    delete: 'Contract proposal deleted successfully..!!'
+    delete_selected: 'Selected contract proposal(s) deleted successfully..!!'
+    prerequisite_msg: 'You currently have no projects defined and this is a required field so you will not be able to submit this form to create a new Contract proposal'
+
+  business:
+    atleast_one_address_and_phone: 'Must have at least one address and phone'
+    update: 'Business updated sucessfully..!!'
+    proposal_update: 'Organization proposal terms updated sucessfully..!!'
+
+  attention:
+    confirm_deletion: 'Are you sure?'

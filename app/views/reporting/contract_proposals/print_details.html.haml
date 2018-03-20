@@ -1,0 +1,114 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => 'utf-8'}
+  %body
+    .container-wrapper
+      - @contract_proposals.each do |contract|
+        .container.first
+          .row.topbar
+            %div.main_page_left
+              %h1.main_title
+                =@business.business_name.titleize
+              %div.address_div
+                %p
+                  =@address.line_1
+                %p
+                  =@address.line_2
+                %p
+                  =@address.city
+                %p
+                  =@address.state
+            %div.main_page_right
+              %ul.list-unstyled-top
+                %li
+                  Phone: 
+                  =@phone.phone_number if @phone
+                %li
+                  -if !@contact.nil?
+                    Email: 
+                    - if @contact.email_address1.present?
+                      = @contact.email_address1
+                    - elsif @contact.email_address2.present?
+                      = @contact.email_address2
+                    - elsif @business.email_address3.present?
+                      = @contact.email_address3
+                %li
+                  ="Licence #: #{@business.license_number}"
+                %li Bonded Insured
+            %div.clear
+          .row
+            %h2.page_title Contract Proposal
+          .row
+          %ul.list-unstyled
+            %li= contract_date_format(contract)
+            %li &nbsp
+            %li= contract.customer.name_format
+            - if contract.customer.primary_address.present?
+              %li= contract.customer.primary_address.line_1
+              %li= contract.customer.primary_address.line_2
+              %li= "#{contract.customer.primary_address.city}, #{contract.customer.primary_address.zip}"
+              %li= contract.customer.primary_address.state
+            %li &nbsp
+            %li 
+              Re: Job # 
+              =contract.job_number
+            %li
+              Job Description:
+              =contract.job_description
+            %li 
+              Prepared By:
+              = contract.preparer.name unless contract.preparer.nil?
+            %li &nbsp
+            %li 
+              Approx. Completion Date: 
+              = contract.approx_completion_date
+            %li 
+              Approx. Start Date:
+              = contract.approx_start_date
+          %br
+          %br
+          .row
+            -if contract.cp_project_groups.present?
+              %table.table{:style => 'width:100%'}
+                %thead
+                  %th Project Groups
+                  %th.rightth.text-right Amount
+                %tbody
+                  - contract.cp_project_groups.each do |p|
+                    %tr
+                      %td= p.project_group.project_group_name
+                      %td.text-right
+                        = "#{p.cp_pg_amount.to_money.format}"
+                  %tr
+                    %td &nbsp
+                    %td
+                      .total_amount
+                        %table.table
+                          %tr
+                            %td
+                              %b Total:
+                            %td.text-right
+                              %b= "#{contract.proposal_amount.to_money.format}"  
+          .container.before_page_break
+          .row
+            .col-md-12
+              %p 
+                %b Payment Terms
+              %p= raw contract.cp_payment_terms
+          .empty_space
+            &nbsp
+          .clearfix
+          .container.before_page_break
+            .row
+              %hr
+              %h2 Contract Proposal - Project Group Description
+              %hr &nbsp
+              %h4
+                Job Number: 
+                =contract.job_number
+            .row
+              - contract.cp_project_groups.each do |p|
+                %p.project_name= p.project_group.project_group_name.titleize
+                %hr
+                %p= p.cp_pg_description 

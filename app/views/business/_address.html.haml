@@ -1,0 +1,29 @@
+- label = label.nil? ? 'Address' : label
+%h3= label
+%legend
+
+= f.simple_fields_for :address do |address|
+  .well.details
+    .row
+      .col-md-6.form-group-lg.form-group
+        .input-group
+          %span.input-group-addon 
+            %i{:class => 'fa fa-map-marker'}
+          %input.search_address.form-control
+      .col-md-5
+        .col-md-1
+      %br
+    .row
+      .col-md-6.form-group-lg
+        = address.input :line_1, input_html: {class: 'formatted_address'}
+      .col-md-6.form-group-lg
+        = address.input :line_2, input_html: {class: 'formatted_address'}
+    .row
+      .col-md-6.form-group-lg
+        = address.input :city, input_html: {class: 'locality'}
+      .col-md-6.form-group-lg
+        = address.input :state, input_html: {class: 'administrative_area_level_1'}
+    .row
+      .col-md-6.form-group-lg
+        = address.input :zip, input_html: {class: 'postal_code zipcode'}
+

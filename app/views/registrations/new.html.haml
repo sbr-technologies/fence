@@ -1,0 +1,18 @@
+.col-md-5.col-md-offset-3
+  .panel.panel-default
+    .panel-heading
+      %h2 Sign up
+    .panel-body
+      = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = f.error_notification
+        .form-inputs
+          = f.input :type, as: :hidden, input_html: {value: 'Employee'}
+          = f.input :need_login, as: :hidden, input_html: {value: '1'}
+          = f.input :business_name, required: true, autofocus: true, input_html: {id: 'organization_name'}
+          = f.input :email, required: true, autofocus: true, input_html: {id: :admin_email}
+          = f.input :password, required: true, input_html: {id: 'password'}
+          = f.input :password_confirmation, required: true, input_html: {id: 'password_confirmation'}
+        .form-actions
+          = f.button :submit, 'Sign up'
+    .panel-footer
+      = render 'devise/shared/links'

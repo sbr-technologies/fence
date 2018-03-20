@@ -1,0 +1,25 @@
+.add_new
+  %button.btn.btn-primary{"data-target" => "#myModal", "data-toggle" => "modal", :type => "button"}= add_label(lookup_type.description)
+.clearfix
+.well.table-scrollable.dashboarde_table
+  %form{:action => 'javascript:void(0)'}
+    %table.display.lookup_values
+      %thead
+        %tr
+          %th Id
+          %th Description
+          %th Long Description
+          %th Edit
+          %th Delete
+      %tbody
+        - lookup_objects.each do |lookup_object|
+          %tr
+            %td= lookup_object.id
+            %td= lookup_object.description
+            %td= lookup_object.long_description
+            %td 
+              %button.btn.btn-default.edit
+                %i.fa.fa-pencil
+            %td
+              - if lookup_object.can_destroy?
+                = link_to '<i class="fa fa-trash"></i>'.html_safe, business_lookup_item_path(@business, lookup_object), :remote => true, data: {:confirm => 'Are you sure?'}, :method => :delete, :class => 'btn btn-danger'

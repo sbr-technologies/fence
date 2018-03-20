@@ -1,0 +1,19 @@
+attributes:
+  - content
+  - foreign_key
+  - inheritance
+disconnected: true
+filename: erd
+filetype: pdf
+indirect: true
+inheritance: true
+markup: true
+notation: simple
+orientation: horizontal
+polymorphism: true
+sort: true
+warn: true
+title: fence_erd_bf
+exclude: null
+only: null
+prepend_primary: true

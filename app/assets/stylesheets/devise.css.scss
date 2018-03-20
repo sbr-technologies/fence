@@ -1,0 +1,198 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require bootstrap.min
+ *= require_self
+ *= require bootstrap-select
+ */
+
+/* @import "bootstrap-sprockets"; */
+/* @import "bootstrap"; */
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,500,500italic,700,700italic,900,900italic,300italic,300,100italic,100);
+/*=====font-family: 'Roboto', sans-serif;======*/
+@import "font-awesome";
+html, body{
+	position: relative;
+	background-color: #fff;
+	background-image: url(../assets/bg.jpg);
+	background-size: cover;
+	background-position: center center;
+	background-attachment: fixed;
+	font-family: 'Roboto', sans-serif;
+}
+
+*, a:hover, a:focus{
+	outline:none;
+}
+.logo{
+	text-align:center;
+	margin-top:140px;
+	margin-bottom:40px;
+}
+.signin_register_tab{
+	max-width:360px;
+	margin:0 auto;
+	font-size:16px;
+	color:#fff;
+}
+.signin_register_tab a{
+	color:#fff;
+	text-shadow:1px 0 2px rgba(0,0,0,0.5);
+}
+.signin_register_tab  > ul.nav{
+	font: 400 20px/45px 'Roboto', sans-serif;
+	color:#f9f9f9;
+}
+.signin_register_tab  > ul.nav li a:hover, .signin_register_tab  > ul.nav li a.active, .signin_register_tab  > ul.nav li a:focus{
+	background:none;
+	color:#fff;
+	border-color: transparent transparent rgba(255,255,255,0.5) transparent;
+}
+.signin_register_tab  > ul.nav li a{
+	background:none;
+	color:#fff;
+	border-radius:0;
+	text-shadow:none;
+}
+.nav-tabs.nav-justified > li > a{
+	border-bottom: 1px solid rgba(255,255,255,0.5);
+}
+.signin_register_tab .nav-tabs.nav-justified > .active > a, .signin_register_tab .nav-tabs.nav-justified > .active > a:hover, .signin_register_tab .nav-tabs.nav-justified > .active > a:focus, .signin_register_tab .nav-tabs.nav-justified >  a:hover {
+	border-width:1px;
+	border-color: rgba(255,255,255,0.5) rgba(255,255,255,0.5) transparent rgba(255,255,255,0.5);
+	
+}
+.paddingtop15{
+	padding-top:15px;
+}
+.btn-success{
+	background:#3ccc9b;
+}
+.btn-success1{
+	background:#3ab0a4;
+	border-color:#3ab0a4;
+	color:#fff;
+}
+
+.btn-default1{
+	background:#fff;
+	color:#3ab0a4;
+	border-color:#3ab0a4;
+}
+.form-control{
+	background:rgba(255,255,255,0.75);
+	border-color:#c0bcb9;
+}
+
+.powered_by{
+	text-align:center;
+	padding:70px 0 20px;
+}
+.checkbox_div label{
+	cursor:pointer;
+	font-weight:normal;
+	text-shadow:1px 0 2px rgba(0,0,0,0.5);
+	margin-bottom:0;
+}
+.checkbox_div label input[type="checkbox"]{
+	position:absolute;
+	left:-99999999px;
+	overflow:hidden;
+}
+.checkbox_div label input[type="checkbox"] ~ span{
+	width:18px;
+	height:18px;
+	background:#e1e1e1;
+	display:block;
+	float:left;
+	border:1px solid #959595;
+	margin-right: 8px;
+    margin-top: 3px;
+}
+.checkbox_div label input[type="checkbox"]:checked ~ span{
+	background: url(../assets/checked.png) no-repeat center center #e1e1e1;
+}
+.navigation_top{
+	background:#1b1b1b;
+}
+.navigation_top .navbar-brand{
+	height:auto;
+}
+.navigation_top .fixed-brand{
+	text-align:center;
+}
+.navigation_top .fixed-brand .navbar-brand{
+	float:none;
+	display:inline-block;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{
+	background:#253043;
+}
+
+
+.form-group-lg .bootstrap-select > .btn {
+    height: 46px;
+    border-color: #c0bcb9;
+    border-radius: 4px;
+    color: #666;
+}
+
+.confirmation_page h3{
+  color: #FFF;
+  text-shadow:0 1px 1px rgba(0,0,0,0.6);
+}
+/*======pradip======*/
+
+
+@media screen and ( max-width : 767px ){
+	.signin_register_tab .nav-tabs.nav-justified > li {
+		display: table-cell;
+		width: 1%;
+	}
+	.rememberme_forgotpass .pull-left, .rememberme_forgotpass .pull-right{
+		float:none !important;
+	}
+.signin_register_tab{
+	font-size:14px;
+}
+.rememberme_forgotpass .pull-left{
+	margin-bottom:10px;
+}
+.logo{
+	margin:20px 0;
+}
+.navigation_top .collapse{
+	display:block;
+}
+.navigation_top .fixed-brand{
+	width:100%;
+}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form{
+	border-top:none;
+	box-shadow:none;
+}
+}
+
+
+.error_msg {
+  color: red;
+}
+
+.form_error{
+  color: #a94442;
+}
+
+.amount, .right_justified {
+  text-align: right !important;
+}
+

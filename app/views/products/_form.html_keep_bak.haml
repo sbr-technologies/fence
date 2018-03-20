@@ -1,0 +1,36 @@
+= simple_form_for [@business, @product] do |f|
+  .well
+    .row
+      .col-md-4
+        = f.input :product_sku, label: 'SKU'
+      .col-md-4
+        = f.input :product_name
+      .col-md-4
+        = f.input :product_description
+    .row
+      .col-md-4
+        = f.association :supplier, collection: @suppliers, include_blank: false
+      .col-md-4
+        = f.association :manufacturer, collection: @manufacturers, include_blank: false
+      .col-md-2
+        = f.association :product_category, collection: product_category_options, include_blank: false
+      .col-md-2
+        = f.input :uom_id, collection: unit_of_measurement_options, include_blank: false
+    .row
+      = f.fields_for :product_rates, @product.product_rates do |rate|
+        = rate.input :id, as: :hidden
+        .col-md-2
+          = rate.input :cost, input_html: {amount: true, id: 'cost_price'}, wrapper: :amount
+        .col-md-2
+          = rate.input :retail, input_html: {amount: true, id: 'retail_price'}, wrapper: :amount
+    .row
+      .col-md-12
+        = f.input :product_long_description
+    .row
+      .col-md-2
+        = f.input :status_id, collection: ['Active', 'Inactive'], include_blank: false
+    .row
+      .col-md-12
+        = f.button :submit, 'Save', { class: 'btn btn-primary' }
+        = link_to 'Cancel', business_products_path(@business), class: 'btn btn-primary'
+

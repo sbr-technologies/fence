@@ -1,0 +1,36 @@
+// Place all the styles related to the projects controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.dataTables_wrapper th, .dataTables_wrapper td{
+  text-align: center;
+}
+
+#header{
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.project_form{
+  .product_name_div.col-md-3{
+    width: 25% !important;
+  }
+  .col-md-2{
+    width: 12% !important;
+  }
+  .col-md-3{
+    width: 18% !important;
+  }
+}
+
+.quantity {
+  text-align: right;
+}
+
+.labor_hour {
+  text-align: right;
+}
+
+.align_center{
+  text-align: center;
+}
+

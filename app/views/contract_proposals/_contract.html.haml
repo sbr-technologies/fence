@@ -1,0 +1,20 @@
+%tr
+  %td
+    = contract.proposal_date
+  %td
+    = contract.customer.get_name
+  %td
+    = contract.start_date
+  %td
+    = contract.completion_date
+  %td.right_justify
+    = number_to_currency contract.amount.to_f/100, precision: 2
+  %td.text-center
+    = link_to print_organization_contract_url(@organization, contract, protocol: 'http'), data: { toggle:'tooltip'}, title: 'Print', class: 'btn btn-default' do
+      %i.fa.fa-print
+  %td.text-center
+    = link_to edit_organization_contract_path(@organization, contract), data: { toggle:'tooltip'}, title: 'Edit', class: 'btn btn-default'  do
+      %i.fa.fa-pencil
+  %td.text-center
+    = link_to organization_contract_path(@organization, contract), method: :delete, data: { toggle:'tooltip', confirm: I18n.t('attention.confirm_deletion')}, title: 'Delete', class: 'btn btn-danger' do
+      %i.fa.fa-trash-o

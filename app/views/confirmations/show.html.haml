@@ -1,0 +1,29 @@
+.confirmation_page{ :ng => { :app => 'deviseApp', :controller => 'ConfirmCtrl' } }
+  .header 
+    %h3 Business Details
+  = simple_nested_form_for @business, url: update_user_confirmation_path(business_id: @business.id) do |f|
+    .well
+      .row
+        .col-md-4.form-group-lg
+          = f.input :business_name
+          =f.input :last_name, as: :hidden, input_html: {:'ng-value' => 'last_name'}
+          =f.input :first_name, as: :hidden, input_html: {:'ng-value' => 'first_name'}
+          =f.input :middle_initial, as: :hidden, input_html: {:'ng-value' => 'middle_initial'}
+    = f.simple_fields_for :employees, [@employee] do |employee|
+      %h3 Enterprise Admin
+      %legend
+      .well
+        .row
+          .col-md-4.form-group-lg
+            = employee.input :id, as: :hidden
+            = employee.input :last_name, input_html: {:'ng-model' => 'last_name'}
+          .col-md-4.form-group-lg
+            = employee.input :first_name, input_html: {:'ng-model' => 'first_name'}
+          .col-md-2.form-group-lg
+            = employee.input :middle_initial, maxlength: 1, label:'MI', input_html: { class: 'letters_only', :'ng-model' => 'middle_initial'}
+    = render partial: 'business/address', locals: {f: f, label: 'Business Address'}
+    = render partial: 'layouts/phone', locals: {f: f, only_one: true, label: 'Business Phone'}
+    = render partial: 'layouts/contact_person', locals: {f: f}
+    = f.submit 'Submit', class: 'btn btn-primary col-sm-2', style: 'margin-top:7px' 
+:javascript
+  angular.module('deviseApp', []).controller('ConfirmCtrl', function($scope) {});

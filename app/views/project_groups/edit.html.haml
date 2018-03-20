@@ -1,0 +1,18 @@
+.update_project{:ng => {:controller => 'projectCtrl', :init => "getProject(#{@project_group.id})"}}
+  .breadcrumbs_save_close.clearfix
+    .row
+      .col-sm-8
+        .row
+          %ol.breadcrumb
+            %li 
+              = link_to 'Projects', business_project_groups_path(@business)
+            %li.active
+              {{project.project_group_name}}
+      .col-sm-4
+        .row
+          .col-xs-6
+            %button{:class => 'btn btn-success1 btn-lg btn-block',  :ng => {:click => 'updateProject(project)'}}
+              Save
+          .col-xs-6
+            = link_to 'Close', business_project_groups_path(@business), :class => 'btn btn-default1 btn-lg btn-block'
+  = render 'form'

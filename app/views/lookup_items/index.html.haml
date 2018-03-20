@@ -1,0 +1,21 @@
+.update_project
+  .breadcrumbs_save_close.clearfix
+    .row
+      .col-sm-8
+        .row
+          %ol.breadcrumb
+            %li
+              = link_to 'Home', root_path
+            %li.active
+              Lookup Values
+  .body_header_new
+    %form
+      .row
+        .col-md-12.form-group-lg.form-group
+          Select Lookup Type
+          = select(:email, :status, options_for_select(lookup_type_items), { :include_blank => false }, {:id => 'lookup_types', :class => 'form-control multi_size', :size => '7'})
+    .main_div_container
+      .main_div
+      .ajax_loader
+        = image_tag 'ajax-loader.gif'
+    .javascript_div

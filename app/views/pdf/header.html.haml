@@ -1,0 +1,98 @@
+.row
+  .col-md-8
+    %h2.contractor_name= @business.business_name
+    .list-unstyled
+      %li= @address.address.split(',')[0]
+      %li
+        = @address.city
+        , 
+        = @address.state
+        = @address.zip
+      %li= @address.country
+  .col-md-4
+    .list-unstyled
+      %li
+        Phone: 
+        = @phone.number if @phone
+      %li 
+        Email: 
+        - if @business.email_address1.present?
+          = @business.email_address1
+        - elsif @business.email_address2.present?
+          = @business.email_address2
+        - elsif @business.email_address3.present?
+          = @business.email_address3
+
+      %li 
+        Licence #:
+        = @business.license_number
+      %li Bonded Insured
+%hr
+
+:css 
+  body{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+  }
+  hr{
+    border-top: 2px solid #333333;
+  }
+  .contractor_name{
+    color: blue;
+  }
+  .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+    float: left;
+  }
+  .col-md-12 {
+    width: 100%;
+  }
+  .col-md-11 {
+    width: 91.66666667%;
+  }
+  .col-md-10 {
+    width: 83.33333333%;
+  }
+  .col-md-9 {
+    width: 75%;
+  }
+  .col-md-8 {
+    width: 66.66666667%;
+  }
+  .col-md-7 {
+    width: 58.33333333%;
+  }
+  .col-md-6 {
+    width: 50%;
+  }
+  .col-md-5 {
+    width: 41.66666667%;
+  }
+  .col-md-4 {
+    width: 33.33333333%;
+  }
+  .col-md-3 {
+    width: 25%;
+  }
+  .col-md-2 {
+    width: 16.66666667%;
+  }
+  .col-md-1 {
+    width: 8.33333333%;
+  }
+  ul,
+  ol {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  ul ul,
+  ol ul,
+  ul ol,
+  ol ol {
+    margin-bottom: 0;
+  }
+  .list-unstyled {
+    padding-left: 0;
+   list-style: none;
+  }

@@ -1,0 +1,24 @@
+#myModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title= lookup_type.description
+      .modal-body
+        = simple_form_for @business, url: lookup_values_business_path(@business, lookup_type: lookup_type.id), remote: true do |f|
+          = f.simple_fields_for model_name, lookup_objects.build do |lookup_object|
+            .well
+              .inputs
+                = lookup_object.input :id, as: :hidden, input_html: {class: 'lookup_object_id'}
+                = lookup_object.input :lookup_type_code_id, as: :hidden, input_html: {class: 'lookup_type_object_id'}
+                .row
+                  .col-md-6
+                    = lookup_object.input :description, input_html: {class: 'description'}
+                .row
+                  .col-md-12
+                    = lookup_object.input :long_description, input_html: {class: 'long_description', rows: 4}, as: :text
+              .row
+                .col-md-12
+                  = f.button :submit, 'Save', class: 'btn btn-primary'
+                  %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close

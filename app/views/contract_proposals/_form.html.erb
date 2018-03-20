@@ -1,0 +1,311 @@
+<div class="clearfix accrodian_div">
+  <div class="clearfix">
+    <div class="col-sm-3 col-md-3">
+      <div class="form-group form-group-lg">
+        <label for="jobno"><abbr title="Required">*</abbr>Job Number</label>
+        <input type="text" class="form-control" name="job_number" placeholder="" ng-model="contract.job_number" required ng-unique-job-no>
+        <span style="color:#a94442" ng-show="frm_contract.job_number.$invalid">
+          <label ng-show="contractSubmitted && frm_contract.job_number.$error.required">This field is required.</label>
+          <label ng-show="frm_contract.job_number.$error.unique && !frm_contract.job_number.$error.required">Job Number already taken.</label>
+        </span>
+      </div>
+    </div>
+    <div class="col-sm-3 col-md-3">
+      <div class="form-group form-group-lg">
+        <label for="proposaldate"><abbr title="Required">*</abbr>Proposal Date</label>
+        <div class="input-group">
+          <input type="text" name="proposal_date" class="form-control" required uib-datepicker-popup="{{dateFormat}}" ng-model="contract.proposal_date" is-open="isOpenAddPropDate" show-weeks="false" show-button-bar="false" datepicker-append-to-body="true" min-date="dateToday" autocomplete="off">
+          <span class="input-group-addon"><a href="#" ng-click="openAddPropDate($event)"><i class="fa fa-calendar-o"></i></a></span> 
+        </div>
+        <span style="color:#a94442" ng-show="frm_contract.proposal_date.$invalid">
+          <label ng-show="contractSubmitted && frm_contract.proposal_date.$error.required">This field is required.</label>
+          <label ng-show="frm_contract.proposal_date.$error.date">Invalid date.</label>
+        </span>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-6">
+      <div class="form-group form-group-lg">
+        <label class="select optional control-label"><abbr title="Required">*</abbr>Customer</label>
+        <div class="input_select_btn">
+          <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" required>
+            <span ng-if="selectedCustomer.id === 0">
+              {{selectedCustomer.name}}
+            </span>
+            <span ng-if="selectedCustomer.id !== 0">
+              {{selectedCustomer.name}}
+            </span>
+            <span ng-if="!selectedCustomer">
+              Select Customer
+            </span>
+            <span class="caret"></span> 
+          </button>
+          <input type="hidden" name="customer_id" ng-model="contract.customer_id" required="" />
+          <span style="color:#a94442" ng-show="contractSubmitted && frm_contract.customer_id.$invalid">
+            <label ng-show="contractSubmitted && frm_contract.customer_id.$error.required">This field is required.</label>
+          </span>
+          <ul class="dropdown-menu">
+            <li role="presentation">
+              <div class="input-group input-group-sm search-control"> <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-search"></span>
+                </span>
+                <input type="text" class="form-control" placeholder="Search" ng-model="searchCustomer"></input>
+              </div>
+            </li>
+            <li>
+              <ul class="scrollable">
+                <li ng-repeat="item in customers | filter:searchCustomer">
+                  <%#*<a href="#" ng-click="selectCustomer(item)">{{item.name}}</a>%>
+                  <a href="#" ng-click="open(item)">{{item.name}}</a>
+                </li>
+              </ul>
+            </li>
+            <li class="text-center add_new_customer">
+              <a href="#" data-toggle="modal" data-target="#newCustomerModal" ng-click="getEndReasons()">
+                <span ng-if="selectedCustomer.id === 0">
+                  Modify <i>{{customer_name}}</i>
+                </span>
+                <span ng-if="selectedCustomer.id !== 0">
+                  Add New
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bs-example clearfix">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default selector">
+        <div class="panel-heading">
+          <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Job Estimate Details</a> </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <div class="form-group form-group-lg">
+              <label for="jobdescription">Job Description</label>
+              <textarea class="form-control" name="jobdescription" id="jobdescription" rows="2" ng-model="contract.job_description"></textarea>
+            </div>
+            <div class="form-group form-group-lg">
+              <label for="jobdescription">Job Long Description</label>
+              <textarea class="form-control" name="job_long_description" rows="3" ng-model="contract.job_long_description"></textarea>
+            </div>
+            <div class="row">
+              <div class="col-sm-4 col-md-3">
+                <div class="form-group form-group-lg">
+                  <label for="status"><abbr title="Required">*</abbr>Job Status</label>
+                  <div class="input_select_btn">
+                    <button type="button" class="btn btn-default btn-block" data-toggle="dropdown">
+                      <span ng-if="selectedStatus">
+                        {{selectedStatus.description}}
+                      </span>
+                      <span ng-if="!selectedStatus">
+                        Select job status
+                      </span>
+                      <span class="caret"></span>
+                    </button>
+                    <input type="hidden" name="job_status" ng-model="selectedStatus.id" required="" />
+                    <span style="color:#a94442" ng-show="contractSubmitted && frm_contract.job_status.$invalid">
+                      <label ng-show="contractSubmitted && frm_contract.job_status.$error.required">This field is required.</label>
+                    </span>
+                    <ul class="dropdown-menu">
+                      <li ng-repeat="status in proposalStatusItems">
+                        <a href="#" ng-click="selectStatus(status)">{{status.description}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-3 col-md-offset-3">
+                <div class="form-group form-group-lg">
+                  <label for="approxstartdate">Approx. Start Date</label>
+                  <input type="text" class="form-control" id="approxstartdate" ng-model="contract.approx_start_date">
+                </div>
+              </div>
+              <div class="col-sm-4 col-md-3">
+                <div class="form-group form-group-lg">
+                  <label for="approxcompletiondate">Approx. Completion date</label>
+                  <input type="text" class="form-control" id="approxcompletiondate" ng-model="contract.approx_completion_date">
+                </div>
+              </div>
+            </div>
+            <div class="form-group form-group-lg">
+              <label for="jobstatusnotes">Job Status Notes</label>
+              <textarea class="form-control" name="jobstatusnotes" id="jobstatusnotes" rows="3" ng-model="contract.job_status_notes"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Payment &amp; Proposal Details</a> </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-12 col-lg-6">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="form-group form-group-lg">
+                      <label for="totalamount">Total Amount</label>
+                      <div class="input-group totalamount_div"> <span class="input-group-addon"><strong>$</strong></span>
+                        <input type="number" class="form-control" id="totalamount" ng-value="contract.proposal_amount" readonly="">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group form-group-lg">
+                      <label for="advancepayment">Advance Payment</label>
+                      <div class="input-group advancepayment_div"> <span class="input-group-addon"><strong>$</strong></span>
+                        <input type="number" class="form-control" name="advance_payment" ng-model="contract.advance_payment">
+                      </div>
+                      <span style="color:#a94442" ng-show="frm_contract.advance_payment.$invalid">
+                        <label ng-show="frm_contract.advance_payment.$error.number">Invalid amount.</label>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="form-group form-group-lg">
+                      <label for="balanceamount">Balance Amount</label>
+                      <div class="input-group"> <span class="input-group-addon"><strong>$</strong></span>
+                        <input type="number" class="form-control" id="balanceamount" readonly ng-value="contract.proposal_amount - contract.advance_payment">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="form-group form-group-lg">
+                  <label for="startdate">Start Date</label>
+                  <div class="input-group">
+                    <input type="text" name="start_date" id="startdate" class="form-control" min-date="dateToday" max-date="contract.completion_date" uib-datepicker-popup="{{dateFormat}}" ng-model="contract.start_date" is-open="isOpenAddStartDate" show-weeks="false" show-button-bar="false">
+                    <span class="input-group-addon"><a href="#" ng-click="openAddStartDate($event)"><i class="fa fa-calendar-o"></i></a></span> 
+                  </div>
+                  <span style="color:#a94442" ng-show="frm_contract.start_date.$invalid">
+                    <label ng-show="frm_contract.start_date.$error.date">Invalid date.</label>
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="form-group form-group-lg">
+                  <label for="completiondate">Completion Date</label>
+                  <div class="input-group">
+                    <input type="text" name="completion_date" class="form-control" min-date="contract.start_date" id="completiondate" uib-datepicker-popup="{{dateFormat}}" ng-model="contract.completion_date" is-open="isOpenAddCompDate" show-weeks="false" show-button-bar="false">
+                    <span class="input-group-addon"><a href="#" ng-click="openAddCompDate($event)"><i class="fa fa-calendar-o"></i></a></span> 
+                  </div>
+                  <span style="color:#a94442" ng-show="frm_contract.completion_date.$invalid">
+                    <label ng-show="frm_contract.completion_date.$error.date">Invalid date.</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group form-group-lg">
+              <label for="payment_term_items">Select Payment Terms</label>
+              <%= select_tag :unit_of_measurement_id,  options_for_select(payment_term_items), {:class => 'form-control', :id => 'payment_term_items', :include_blank => false, :'ng-model' => 'contract.cp_payment_terms_item_code', :'ng-change' => 'getDefaultPaymentTerm(contract.cp_payment_terms_item_code)'} %>
+            </div>
+            <div class="form-group form-group-lg">
+              <label for="paymentterms">Payment Terms</label>
+              <textarea class="form-control" name="jobstatusnotes" id="paymentterms" ckeditor="editorOptions" ng-model="contract.cp_payment_terms"></textarea>
+              <%#= cktext_area :payment_terms, as: :text, :input_html => { :ckeditor => {:'ng-model' => 'contract.payment_terms'} } %>
+            </div>
+            <div class="form-group form-group-lg">
+              <label for="proposal_term_items">Select Proposal Terms</label>
+              <%= select_tag :unit_of_measurement_id,  options_for_select(proposal_term_items), {:class => 'form-control', :id => 'proposal_term_items', :include_blank => false, :'ng-model' => 'contract.cp_proposal_terms_item_code', :'ng-change' => 'getDefaultProposalTerm(contract.cp_proposal_terms_item_code)'} %>
+            </div>
+            <div class="form-group form-group-lg">
+              <label for="proposalterms">Proposal Terms</label>
+              <textarea class="form-control" name="jobstatusnotes" id="proposalterms" ckeditor="editorOptions" ng-model="contract.cp_proposal_terms"></textarea>
+            </div>
+            <div class="row">
+              <div class="col-sm-8">
+                <div class="form-group form-group-lg">
+                  <label for="signedby">Signed by</label>
+                  <div class="clearfix">
+                    <div class="col-sm-4">
+                      <div class="row">
+                        <input type="text" class="form-control" id="" placeholder="Last Name" ng-model="contract.signed_by_lastname">
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="row">
+                        <input type="text" class="form-control" id="" placeholder="First Name" ng-model="contract.signed_by_firstname">
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="row">
+                        <input type="text" class="form-control" id="" placeholder="Middle Name" ng-model="contract.signed_by_mi">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group form-group-lg">
+                  <label for="signeddate">Signed Date</label>
+                  <div class="input-group">
+                    <input type="text" name="signed_date" class="form-control" id="signeddate" ng-model="contract.signed_date" uib-datepicker-popup="{{dateFormat}}" is-open="isOpenSignDate" show-weeks="false" show-button-bar="false"  min-date="dateToday">
+                    <span class="input-group-addon"><a href="#" ng-click="openSignDate($event)"><i class="fa fa-calendar-o"></i></a></span> 
+                  </div>
+                  <span style="color:#a94442" ng-show="frm_contract.signed_date.$invalid">
+                    <label ng-show="frm_contract.signed_date.$error.date">Invalid date.</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title"> <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Job Creation Details</a> </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+            <div class="clearfix">
+              <div class="col-sm-6 col-md-3">
+                <div class="form-group form-group-lg">
+                  <label for="createdby"><strong>Created by</strong></label>
+                  <input type="text" class="form-control" id="createdby" ng-value="contract.creator" readonly="">
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="form-group form-group-lg">
+                  <label for="createdon">Created on</label>
+                  <input type="text" class="form-control" id="createdon" ng-value="contract.created_at | date:'short'" readonly="">
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <div class="col-sm-6 col-md-3">
+                <div class="form-group form-group-lg">
+                  <label for="lastmodifiedby"><strong>Last Modified by</strong></label>
+                  <input type="text" class="form-control" id="lastmodifiedby" ng-value="contract.updator" readonly="">
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="form-group form-group-lg">
+                  <label for="lastmodifiedon">Last Modified on</label>
+                  <input type="text" class="form-control" id="lastmodifiedon" ng-value="contract.updated_at | date:'short'" readonly="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render :template => "contract_proposals/projects/_form"%>
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Re-calculate retail price</h3>
+    </div>
+    <div class="modal-body">
+        Margin percent of selected customer is <b>{{ customer.margin_percent }}</b> <br />
+        Do you want to recalculate the retail price?
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="yes()">Yes</button>
+        <button class="btn btn-warning" type="button" ng-click="no()">No</button>
+    </div>
+</script>

@@ -1,0 +1,29 @@
+.body_header_new
+  .row
+    .col-md-6.form-group-lg
+      = f.input :product_sku, label: 'SKU'
+    .col-md-6.form-group-lg
+      = f.input :product_name
+  .row
+    .col-md-12.form-group-lg
+      = f.input :description, as: :text
+  .row
+    .col-md-4.form-group-lg
+      = f.association :supplier, collection: @suppliers, include_blank: 'Select Supplier', input_html: {class: ''}
+    .col-md-4.form-group-lg
+      = f.association :manufacturer, collection: @manufacturers, include_blank: 'Select Manufacturer', input_html: {class: ''}
+    .col-md-4.form-group-lg
+      = f.input :category_item_code, collection: product_category_items, include_blank: 'Select Category', input_html: {class: ''}, label: 'Category'
+  .row
+    .col-md-4.form-group-lg
+      = f.input :cost_price, input_html: {amount: true, id: 'cost_price'}, wrapper: :amount, as: :string
+    .col-md-4.form-group-lg
+      = f.input :retail_price, input_html: {amount: true, id: 'retail_price'}, wrapper: :amount, as: :string
+    .col-md-4.form-group-lg
+      = f.input :uom_item_code, collection: uom_items, include_blank: 'Select UOM', input_html: {class: ''}, label: 'UOM'
+  .row
+    .col-md-12.form-group-lg
+      = f.input :long_description
+  .row
+    .col-md-3.form-group-lg
+      = f.input :status_item_code, collection: product_status_items, include_blank: 'Select Status', input_html: {class: ''}, label: 'Status'

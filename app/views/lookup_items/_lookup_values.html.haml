@@ -1,0 +1,3 @@
+= render partial: 'lookup_value', locals: {lookup_objects: lookup_items, lookup_type: lookup_type}
+= render partial: 'modal_form', locals: {lookup_objects: lookup_items, lookup_type: lookup_type, model_name: :lookup_item_codes}
+= render 'datatable_javascript', locals: {lookup_type: lookup_type, model_name: :lookup_item_codes}

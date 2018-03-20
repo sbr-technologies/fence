@@ -1,0 +1,113 @@
+%html
+  %head
+    = stylesheet_link_tag 'print', media: "all"
+  %body
+    .container.first
+      .row.printdiv
+        %button.print{:onclick => 'window.print()'}
+          Print
+      .row.topbar
+        %div.main_page_left
+          %h1.main_title
+            =@business.business_name.titleize
+          %div.address_div
+            %p
+              =@address.line_1
+            %p
+              =@address.line_2
+            %p
+              =@address.city
+            %p
+              =@address.state
+        %div.main_page_right
+          %ul.list-unstyled-top
+            %li
+              Phone: 
+              =@phone.phone_number if @phone
+            %li
+              -if !@contact.nil?
+                Email: 
+                - if @contact.email_address1.present?
+                  = @contact.email_address1
+                - elsif @contact.email_address2.present?
+                  = @contact.email_address2
+                - elsif @business.email_address3.present?
+                  = @contact.email_address3
+            %li
+              ="Licence #: #{@business.license_number}"
+            %li Bonded Insured
+        %div.clear
+         
+      .row
+        %h2.page_title Contract Proposal
+      .row
+        %ul.list-unstyled
+          %li= contract_date_format(@contract_proposal)
+          %li &nbsp
+          %li= @contract_proposal.customer.name
+          - if @customer_address.present?
+            %li= @customer_address.address
+            %li= "#{@customer_address.city}, #{@customer_address.zip}"
+            %li= @customer_address.state
+          %li &nbsp
+          %li
+            ="Re: Job #: #{@contract_proposal.job_number}"
+          %li 
+            Job Description:
+            =@contract_proposal.job_description
+          %li 
+            Prepared By:
+            = @contract_proposal.preparer.name unless @contract_proposal.preparer.nil?
+          %li &nbsp
+          %li 
+            Approx. Start Date:
+            = @contract_proposal.approx_start_date
+          %li 
+            Approx. Completion Date: 
+            = @contract_proposal.approx_completion_date
+      %br
+      %br
+      .row
+        %table.table
+          %thead
+            %th Project Groups
+            %th.rightth.text-right Amount
+          %tbody
+            - @contract_proposal.cp_project_groups.each do |cppg|
+              %tr
+                %td= cppg.project_group.project_group_name
+                %td.text-right
+                  = "#{cppg.cp_pg_amount.to_money.format}"
+            %tr
+              %td &nbsp
+              %td
+                .total_amount
+                  %table.table
+                    %tr
+                      %td
+                        %b Total:
+                      %td.text-right
+                        %b= "#{@contract_proposal.proposal_amount.to_money.format}"
+    .container.before_page_break
+      .row
+        .col-md-12
+          %p 
+            %b Payment Terms
+          %p= raw @contract_proposal.cp_payment_terms
+    .empty_space
+      &nbsp
+    .clearfix
+    .container.before_page_break
+      .row
+        %h2 Contract Proposal - Project Group Description
+        %hr &nbsp
+        %h4 
+          Job Number:
+          =@contract_proposal.job_number
+      .row
+        - @contract_proposal.cp_project_groups.each do |cppg|
+          %p.project_name= cppg.project_group.project_group_name.titleize
+          %p= cppg.cp_pg_long_description
+    .row.printdiv
+      %button.print{:onclick => 'window.print()'}
+        Print

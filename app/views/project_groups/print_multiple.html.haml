@@ -1,0 +1,72 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => 'utf-8'}
+  %body
+    .container.first
+      .row.topbar
+        %div.main_page_left
+          %h1.main_title
+            =@business.business_name.titleize
+          %div.address_div
+            %p
+              =@address.line_1
+            %p
+              =@address.line_2
+            %p
+              =@address.city
+            %p
+              =@address.state
+        %div.main_page_right
+          %ul.list-unstyled-top
+            %li
+              Phone: 
+              =@phone.phone_number if @phone
+            %li
+              -if !@contact.nil?
+                Email: 
+                - if @contact.email_address1.present?
+                  = @contact.email_address1
+                - elsif @contact.email_address2.present?
+                  = @contact.email_address2
+                - elsif @business.email_address3.present?
+                  = @contact.email_address3
+            %li
+              ="Licence #: #{@business.license_number}"
+            %li Bonded Insured
+        %div.clear
+      - @project_groups.each do |project|  
+        .row
+          %hr
+          %h5.project_group_name
+            %span Project Group :
+            = project.project_group_name
+          %h5.project_category_name
+            %span Category :
+            = project.category
+          %hr
+        .row
+          %table.table
+            %thead
+              %tr
+                %th{:width => '60%'} Item Description
+                %th.text-center{:width => '15%'} Quantity
+                %th.text-center{:width => '25%'} Unit of Measure
+            %tbody
+              -if project.pg_products.present?
+                - project.pg_products.each do |pg_product|
+                  %tr
+                    %td
+                      = pg_product.product.product_name
+                    %td.text-center
+                      = pg_product.quantity
+                    %td.text-center
+                      -if pg_product.uom_item_code.present?
+                        %center 
+                        = pg_product.product.unit_of_measure
+                      -else
+                        &nbsp
+              -else
+                %tr
+                  %td
+                    = 'No records found'

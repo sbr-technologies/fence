@@ -1,0 +1,219 @@
+<!-- modal -->
+
+<div class="modal fade mymodalpop" id="newCustomerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form action="javascript:void(0)" name="frm_new_ustomer" method="post" novalidate="false">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+        <h4 class="modal-title">Add New Customer</h4>
+      </div>
+      <div class="modal-body">
+        <div class="clearfix">
+          <div class="col-sm-8">
+            <div class="form-group form-group-lg">
+              <label for="customerorganisation"><abbr title="Organisation or First Name and Last Name is required">*</abbr>Customer Organisation</label>
+              <input type="text" class="form-control" name="customer_business_name" ng-model="customer.business_name" ng-required="!customer.last_name||!customer.first_name" ng-unique-cust_org>
+              <span style="color:#a94442" ng-show="frm_new_ustomer.customer_business_name.$invalid">
+                <label ng-show="customerSubmitted && frm_new_ustomer.customer_business_name.$error.required">Organisation or First Name and Last Name is required.</label>
+                <label ng-show="frm_new_ustomer.customer_business_name.$error.unique">Organisation name already taken.</label>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group form-group-lg">
+              <label for="organisationacc">Organisation Acc #</label>
+              <input type="text" class="form-control" id="organisationacc" ng-model="customer.business_account_nmbr">
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="col-sm-8">
+            <div class="form-group form-group-lg">
+              <label for="name"><abbr title="Organisation or First Name and Last Name is required">*</abbr>Name</label>
+              <div class="clearfix">
+                <div class="col-sm-4">
+                  <div class="row">
+                    <input type="text" class="form-control" id="" placeholder="Last Name" ng-model="customer.last_name" ng-required="!customer.business_name">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="row">
+                    <input type="text" class="form-control" id="" placeholder="First Name" ng-model="customer.first_name" ng-required="!customer.business_name">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="row">
+                    <input type="text" class="form-control" name="customer_middle_name" placeholder="Middle Name" ng-model="customer.middle_initial" ng-maxlength="1">
+                  </div>
+                </div>
+              </div>
+              <span style="color:#a94442" ng-show="customerSubmitted && frm_new_ustomer.customer_middle_name.$invalid">
+                <label ng-show="customerSubmitted && frm_new_ustomer.customer_middle_name.$error.maxlength">Length of Middle Name should 1 character.</label>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group form-group-lg">
+              <label for="margin">Margin %</label>
+              <div class="input-group">
+                <input type="number" class="form-control" name="customer_margin" ng-model="customer.margin_percent" ng-min="0" ng-max="99.99">
+                <span class="input-group-addon">%</span> 
+              </div>
+              <span style="color:#a94442" ng-show="frm_new_ustomer.customer_margin.$invalid">
+                <label ng-show="frm_new_ustomer.customer_margin.$error.number">Invalid number</label>
+                <label ng-show="frm_new_ustomer.customer_margin.$error.min">Should be greater or equal 0</label>
+                <label ng-show="frm_new_ustomer.customer_margin.$error.max">Should be less than or equal 99.99</label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="col-sm-4">
+            <div class="form-group form-group-lg">
+              <label for="Phone"><abbr title="Required">*</abbr>Phone</label>
+              <input type="text" class="form-control" name="customer_phone" placeholder="" ng-model="customer.phone_number" required ng-pattern="/^(\+1)?\s?((\()[0-9]{3}\)|([0-9]{3}))(-|\s)?[0-9]{3}(-|\s)?[0-9]{4}$/">
+              <span style="color:#a94442" ng-show="frm_new_ustomer.customer_phone.$invalid">
+                <label ng-show="frm_new_ustomer.customer_phone.$error.pattern">Invalid phone.</label>
+                <label ng-show="customerSubmitted && frm_new_ustomer.customer_phone.$error.required">This field is required.</label>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group form-group-lg">
+              <label for="email"><abbr title="Required">*</abbr>Email</label>
+              <input type="email" class="form-control" name="customer_email" id="email" ng-model="customer.email" required>
+              <span style="color:#a94442" ng-show="frm_new_ustomer.customer_email.$invalid">
+                <label ng-show="customerSubmitted && frm_new_ustomer.customer_email.$error.required">This field is required.</label>
+                <label ng-show="frm_new_ustomer.customer_email.$error.email">Invalid Email.</label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="popup_more details">
+          <h4 ng-click="showDetails = !showDetails" ng-class="{select: showDetails == true}">More</h4>
+          <div class="popup_more_toggle" ng-show="showDetails">
+            <div class="clearfix">
+              <div class="col-sm-12">
+                <div class="form-group form-group-lg">
+                  <label for="address">Search Address</label>
+                  <input type="text" class="form-control" placeholder="Enter Location" g-places-autocomplete force-selection="true" ng-model="customerPlaces" />
+                  <%#*{{customerPlaces.address_components | json}}%>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <div class="col-sm-12">
+                <div class="form-group form-group-lg">
+                  <label for="address"><abbr title="Required">*</abbr>Line 1</label>
+                  <textarea class="form-control formatted_address" name="customer_line_1" rows="2" ng-model="customer.line_1" required></textarea>
+                  <span style="color:#a94442" ng-show="customerSubmitted && frm_new_ustomer.customer_line_1.$invalid">
+                    <label ng-show="customerSubmitted && frm_new_ustomer.customer_line_1.$error.required">This field is required.</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <div class="col-sm-12">
+                <div class="form-group form-group-lg">
+                  <label for="address">Line 2</label>
+                  <textarea class="form-control formatted_address" name="customer_line_2" rows="2" ng-model="customer.line_2"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <div class="col-sm-4">
+                <div class="form-group form-group-lg">
+                  <label for="city"><abbr title="Required">*</abbr>City</label>
+                  <input type="text" name="customer_city" class="form-control locality" id="customerCity" ng-model="customer.city" required>
+                  <span style="color:#a94442" ng-show="customerSubmitted && frm_new_ustomer.customer_city.$invalid">
+                    <label ng-show="customerSubmitted && frm_new_ustomer.customer_city.$error.required">This field is required.</label>
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group form-group-lg">
+                  <label for="state"><abbr title="Required">*</abbr>State</label>
+                  <input type="text" name="customer_state" class="form-control administrative_area_level_1" id="city" ng-model="customer.state" required>
+                  <span style="color:#a94442" ng-show="customerSubmitted && frm_new_ustomer.customer_state.$invalid">
+                    <label ng-show="customerSubmitted && frm_new_ustomer.customer_state.$error.required">This field is required.</label>
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group form-group-lg">
+                  <label for="zipcode"><abbr title="Required">*</abbr>Zip Code</label>
+                  <input type="text" name="customer_zip_code" class="form-control postal_code" id="zipcode" ng-model="customer.zip" ng-pattern="/^(\d{5}-\d{4}|\d{5})$/" required>
+                  <span style="color:#a94442" ng-show="frm_new_ustomer.customer_zip_code.$invalid">
+                    <label ng-show="frm_new_ustomer.customer_zip_code.$error.pattern">Invalid zip code.</label>
+                    <label ng-show="customerSubmitted && frm_new_ustomer.customer_zip_code.$error.required">This field is required.</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <div class="col-sm-4">
+                <div class="form-group form-group-lg">
+                  <label for="start_date">Start Date</label>
+                  <div class="input-group">
+                    <input type="text" name="customer_start_date" id="start_date" class="form-control" max-date="customer.end_date" ng-model="customer.start_date" uib-datepicker-popup="{{dateFormat}}" is-open="isOpenCustStartDate" show-weeks="false" show-button-bar="false" datepicker-append-to-body="true">
+                    <span class="input-group-addon"><a href="#" ng-click="openCustStartDate($event)"><i class="fa fa-calendar-o"></i></a></span>
+                  </div>
+                  <span style="color:#a94442" ng-show="frm_new_ustomer.customer_start_date.$invalid">
+                    <label ng-show="frm_new_ustomer.customer_start_date.$error.date">Invalid date.</label>
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group form-group-lg">
+                  <label for="end_date">End Date</label>
+                  <div class="input-group">
+                    <input type="text" name="customer_end_date" id="end_date" min-date="customer.start_date" class="form-control" ng-model="customer.end_date" uib-datepicker-popup="{{dateFormat}}" is-open="isOpenCustEndDate" show-weeks="false" show-button-bar="false" datepicker-append-to-body="true">
+                    <span class="input-group-addon"><a href="#" ng-click="openCustEndDate($event)"><i class="fa fa-calendar-o"></i></a></span>
+                  </div>
+                  <span style="color:#a94442" ng-show="frm_new_ustomer.customer_end_date.$invalid">
+                    <label ng-show="frm_new_ustomer.customer_end_date.$error.date">Invalid date.</label>
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group form-group-lg">
+                  <label for="status">Status</label>
+                  <%= select_tag :status_id,  options_for_select(customer_status_items), {:class => 'select form-control', "ng-model" => "customer.status_item_code", :include_blank => 'Select Status'} %>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix">
+              <div class="col-sm-4">
+                <div class="form-group form-group-lg">
+                  <label for="endreason">End Reason</label>
+                  <select class="form-control" id="endreason" ng-model="customer.end_reason_item_code">
+                    <option value="">Select End Reason</option>
+                    <option ng-repeat="item in endReasons" ng-value="item.id">{{item.description}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-8">
+                <div class="form-group form-group-lg">
+                  <label for="endreasonnotes">End Reason Notes</label>
+                  <textarea class="form-control" id="endreasonnotes" rows="2" ng-model="customer.end_reason_notes"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-4 col-md-6 col-md-offset-6">
+          <div class="col-xs-6">
+            <button class="btn btn-default1 btn-lg btn-block" data-dismiss="modal" aria-hidden="true">Close</button>
+          </div>
+          <div class="col-xs-6">
+            <button class="btn btn-success1 btn-lg btn-block"  data-dismiss="{{frm_new_ustomer.$valid ? 'modal' : '' }}" aria-hidden="true" ng-click="prepareCustomer(customer)">Save</button>
+          </div>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+!!! 5
+%html
+  %head
+    %meta{:charset => 'utf-8'}
+  %body
+    .container-wrapper
+      .row
+        %h1.main_title
+          =@business.business_name.titleize
+      %table.table
+        %thead
+          %tr
+            %th Date
+            %th Job Number
+            %th Job Description
+            %th Customer
+            %th Amount
+            %th Status
+        %tbody
+        - @contract_proposals.each do |proposal|
+          %tr
+            %td
+              =proposal.proposal_date
+            %td
+              =proposal.job_number
+            %td
+              =proposal.job_description
+            %td
+              =proposal.customer.name
+            %td
+              =proposal.proposal_amount.to_money.format
+            %td
+              =proposal.status
+        %tfoot
+          %tr
+            %td &nbsp;
+            %td &nbsp;
+            %td &nbsp;
+            %td
+              %b Total:
+            %td
+              %b
+                =@contract_proposals.sum(&:proposal_amount).to_money.format
+            %td &nbsp;
